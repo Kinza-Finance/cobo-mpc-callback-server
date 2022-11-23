@@ -1,4 +1,5 @@
 .idea/
+example/callback-service-nodejs/node_modules/
 recovery/
 .DS_Store
 *.key
