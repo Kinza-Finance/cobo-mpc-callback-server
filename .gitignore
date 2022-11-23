@@ -1,0 +1,7 @@
+.idea/
+recovery/
+.DS_Store
+*.key
+*.db
+*.dat
+*.csv
