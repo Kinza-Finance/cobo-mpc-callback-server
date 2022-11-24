@@ -1,5 +1,6 @@
 .idea/
 example/callback-service-nodejs/node_modules/
+example/callback-service-rust/target/
 recovery/
 .DS_Store
 *.key
