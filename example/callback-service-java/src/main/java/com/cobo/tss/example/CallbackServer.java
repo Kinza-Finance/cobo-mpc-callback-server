@@ -1,5 +1,6 @@
 package com.cobo.tss.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hellokaton.blade.Blade;
 import com.hellokaton.blade.annotation.Path;
 import com.hellokaton.blade.annotation.request.Form;
@@ -9,7 +10,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -28,12 +28,6 @@ class CallBackRequest implements Serializable{
     public String request_id;
 
     public String meta;
-
-    public CallBackRequest(int requestType, String requestID, String meta) {
-        this.request_type = requestType;
-        this.request_id = requestID;
-        this.meta = meta;
-    }
 
     public int getRequest_type() {
         return this.request_type;
@@ -58,18 +52,12 @@ class CallBackRequest implements Serializable{
     public void setMeta(String meta) {
         this.meta = meta;
     }
-
-    private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException  {
-        request_type = in.readInt();
-        request_id = (String) in.readObject();
-        meta = (String) in.readObject();
-    }
 }
 
 class CallBackResponse implements Serializable {
-    public static final String ActionApprove             = "APPROVE";
-    public static final String ActionReject             = "REJECT";
-    public static final String ActionWait             = "WAIT";
+    public static final String ActionApprove = "APPROVE";
+    public static final String ActionReject = "REJECT";
+    public static final String ActionWait = "WAIT";
 
     public int status;
     public String request_id;
@@ -113,19 +101,6 @@ class CallBackResponse implements Serializable {
 
     public void setError(String errorInfo) {
         this.error = errorInfo;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("{\"status\":%d,\"request_id\":\"%s\",\"action\":\"%s\",\"error\":\"%s\"}",
-                this.status, this.request_id, this.action, this.error);
-    }
-
-    private void writeObject(ObjectOutputStream out) throws IOException{
-        out.writeInt(status);
-        out.writeBytes(request_id);
-        out.writeBytes(action);
-        out.writeBytes(error);
     }
 }
 
@@ -206,10 +181,20 @@ public class CallbackServer {
         return null;
     }
 
+    private String MarshalResponse(CallBackResponse resp) {
+        try {
+            ObjectMapper objectMapper1 = new ObjectMapper();
+            byte[] data =  objectMapper1.writeValueAsBytes(resp);
+            String payload = Base64.getEncoder().encodeToString(data);
+
+            return payload;
+        } catch(Exception e) {
+            return e.toString();
+        }
+    }
+
     private String createResponseToken(CallBackResponse resp) {
-        byte[] data = SerializationUtils.serialize(resp.toString());
-//        byte[] data = resp.toString().getBytes();
-        byte[] payload =  Base64.getEncoder().encode(data);
+        String payload = MarshalResponse(resp);
 
         SignatureAlgorithm signAlg = SignatureAlgorithm.RS256;
         long exp = System.currentTimeMillis() + EXPIRE_TIME;
@@ -218,7 +203,7 @@ public class CallbackServer {
         JwtBuilder builder = Jwts.builder()
                 .setIssuer(ISSUER)
                 .setExpiration(new Date(exp))
-                .claim(JWT_PAYLOAD,payload.toString())
+                .claim(JWT_PAYLOAD, payload)
                 .signWith(key, signAlg);
 
         return builder.compact();
@@ -263,7 +248,8 @@ public class CallbackServer {
 
         try{
             byte[] payload = Base64.getDecoder().decode(package_data.getBytes());
-            CallBackRequest req = SerializationUtils.deserialize(payload);
+            ObjectMapper objectMapper = new ObjectMapper();
+            CallBackRequest req = objectMapper.readValue(payload, CallBackRequest.class);
 
             switch (req.request_type) {
                 case TypeKeyGen:
