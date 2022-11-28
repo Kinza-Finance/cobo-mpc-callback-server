@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -29,6 +30,9 @@ type CallBackService struct {
 	CallBackHandlerPrivateKey *rsa.PrivateKey
 	tokenExpireTime           time.Duration
 
+	RcvWhiteListLock sync.Mutex
+	RcvWhiteList     map[string]bool
+
 	config *CallBackConfig
 }
 
@@ -47,6 +51,7 @@ func NewCallBackService(config *CallBackConfig) *CallBackService {
 		CallBackHandlerPrivateKey: cbPriKey,
 		tokenExpireTime:           time.Duration(config.TokenExpireMinutes) * time.Minute,
 		config:                    config,
+		RcvWhiteList:              make(map[string]bool),
 	}
 }
 
@@ -78,6 +83,10 @@ func (rcs *CallBackService) Start() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	r.POST("/add_rcv_address", rcs.AddReceiverAddress)
+	r.POST("/rm_rcv_address", rcs.RemoveReceiverAddress)
+	r.GET("/list_rcv_address", rcs.ListReceiverAddress)
+
 	api := r.Group("/v1")
 	api.Use(rcs.jwtAuthMiddleware())
 	api.POST("/check", rcs.RiskControl)
@@ -107,7 +116,7 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 }
 
 func (rcs *CallBackService) processKeyGenRequest(c *gin.Context, meta, requestID string) {
-	rawMeta := RawMeta{}
+	rawMeta := KeyGenMeta{}
 	if err := json.Unmarshal([]byte(meta), &rawMeta); err != nil {
 		rsp := CallBackResponse{
 			Status: StatusInternalError,
@@ -129,7 +138,7 @@ func (rcs *CallBackService) processKeyGenRequest(c *gin.Context, meta, requestID
 }
 
 func (rcs *CallBackService) processKeySignRequest(c *gin.Context, meta, requestID string) {
-	rawMeta := RawMeta{}
+	rawMeta := KeySignMeta{}
 	if err := json.Unmarshal([]byte(meta), &rawMeta); err != nil {
 		rsp := CallBackResponse{
 			Status: StatusInternalError,
@@ -140,6 +149,27 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, meta, requestI
 	}
 
 	// risk control logical
+	if strings.Trim(rawMeta.ToAddress, " ") == "" {
+		rsp := CallBackResponse{
+			Action:    "REJECT",
+			RequestID: requestID,
+			Status:    StatusInvalidRequest,
+			ErrStr:    "The target receiver address is empty",
+		}
+		rcs.SendResponse(c, rsp)
+	}
+
+	rcs.RcvWhiteListLock.Lock()
+	defer rcs.RcvWhiteListLock.Unlock()
+	if _, ok := rcs.RcvWhiteList[rawMeta.ToAddress]; !ok {
+		rsp := CallBackResponse{
+			Action:    "REJECT",
+			RequestID: requestID,
+			Status:    StatusInvalidRequest,
+			ErrStr:    "The target receiver address is not in whitelist",
+		}
+		rcs.SendResponse(c, rsp)
+	}
 
 	rsp := CallBackResponse{
 		Action:    "APPROVE",
@@ -151,7 +181,7 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, meta, requestI
 }
 
 func (rcs *CallBackService) processKeyReShareRequest(c *gin.Context, meta, requestID string) {
-	rawMeta := RawMeta{}
+	rawMeta := KeyReshareMeta{}
 	if err := json.Unmarshal([]byte(meta), &rawMeta); err != nil {
 		rsp := CallBackResponse{
 			Status: StatusInternalError,

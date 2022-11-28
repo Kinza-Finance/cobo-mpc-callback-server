@@ -22,10 +22,50 @@ type PackageDataClaim struct {
 
 // =================== TSS related ===================.
 
-type RawMeta struct {
-	Custody    string `json:"custody,omitempty"`
-	Blockchain string `json:"blockchain,omitempty"`
-	Customer   string `json:"customer,omitempty"`
+type KeyGenMeta struct {
+	CoboID    string   `json:"cobo_id"`
+	Threshold int      `json:"threshold"`
+	NodeIDs   []string `json:"node_ids"`
+}
+
+type KeySignMeta struct {
+	CoboID           string   `json:"cobo_id"`
+	RequestID        string   `json:"request_id"`
+	Coin             string   `json:"coin"`
+	FromAddress      string   `json:"from_address"`
+	ToAddress        string   `json:"to_address"`
+	Amount           int      `json:"amount"`
+	AmountStr        string   `json:"amount_str"`
+	ToAddressDetails string   `json:"to_address_details"` // json
+	Fee              string   `json:"fee"`
+	ExtraParameters  string   `json:"extra_parameters"` // json
+	ApiKey           string   `json:"api_key"`
+	Spender          string   `json:"spender"`
+	NodeIds          []string `json:"node_ids"`
+	RawTx            []string `json:"raw_tx"`
+}
+
+type KeySignToAddressDetails struct {
+	ToAddress string `json:"to_address"`
+	Amount    int    `json:"amount"`
+}
+
+type KeySignExtraParameters struct {
+	InputsToSpend   []Input `json:"inputsToSpend"`
+	InputsToExclude []Input `json:"inputsToExclude"`
+}
+
+type Input struct {
+	TxHash string `json:"tx_hash"`
+	VoutN  int    `json:"vout_n"`
+}
+
+type KeyReshareMeta struct {
+	CoboID       string   `json:"cobo_id"`
+	OldThreshold int      `json:"old_threshold"`
+	OldNodeIds   []string `json:"old_node_ids"`
+	NewThreshold int      `json:"new_threshold"`
+	NewNodeIds   []string `json:"new_node_ids"`
 }
 
 type CallBackRequest struct {
