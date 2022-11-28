@@ -102,6 +102,8 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 			ErrStr: err.Error(),
 		}
 		rcs.SendResponse(c, rsp)
+		c.Abort()
+
 		return
 	}
 
@@ -120,9 +122,11 @@ func (rcs *CallBackService) processKeyGenRequest(c *gin.Context, meta, requestID
 	if err := json.Unmarshal([]byte(meta), &rawMeta); err != nil {
 		rsp := CallBackResponse{
 			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to RawMeta",
+			ErrStr: "fail to converse []byte to KeyGenMeta",
 		}
 		rcs.SendResponse(c, rsp)
+		c.Abort()
+
 		return
 	}
 
@@ -142,9 +146,11 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, meta, requestI
 	if err := json.Unmarshal([]byte(meta), &rawMeta); err != nil {
 		rsp := CallBackResponse{
 			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to RawMeta",
+			ErrStr: "fail to converse []byte to KeySignMeta",
 		}
 		rcs.SendResponse(c, rsp)
+		c.Abort()
+
 		return
 	}
 
@@ -157,6 +163,9 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, meta, requestI
 			ErrStr:    "The target receiver address is empty",
 		}
 		rcs.SendResponse(c, rsp)
+		c.Abort()
+
+		return
 	}
 
 	rcs.RcvWhiteListLock.Lock()
@@ -169,6 +178,9 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, meta, requestI
 			ErrStr:    "The target receiver address is not in whitelist",
 		}
 		rcs.SendResponse(c, rsp)
+		c.Abort()
+
+		return
 	}
 
 	rsp := CallBackResponse{
@@ -185,9 +197,11 @@ func (rcs *CallBackService) processKeyReShareRequest(c *gin.Context, meta, reque
 	if err := json.Unmarshal([]byte(meta), &rawMeta); err != nil {
 		rsp := CallBackResponse{
 			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to RawMeta",
+			ErrStr: "fail to converse []byte to KeyReshareMeta",
 		}
 		rcs.SendResponse(c, rsp)
+		c.Abort()
+
 		return
 	}
 	// risk control logical
@@ -277,8 +291,8 @@ func (rcs *CallBackService) jwtAuthMiddleware() func(c *gin.Context) {
 				ErrStr: err.Error(),
 			}
 			rcs.SendResponse(c, rsp)
-
 			c.Abort()
+
 			return
 		}
 
@@ -290,11 +304,17 @@ func (rcs *CallBackService) SendResponse(c *gin.Context, rsp CallBackResponse) {
 	data, err := json.Marshal(rsp)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
+		c.Abort()
+
+		return
 	}
 
 	token, err := rcs.CreateToken(data)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
+		c.Abort()
+
+		return
 	}
 
 	c.JSON(http.StatusOK, token)
