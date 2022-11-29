@@ -14,6 +14,17 @@ nvm是用来管理多个node和npm版本的工具。不同项目，所依赖的n
 export NVM_DIR=xxx
 ```
 
+## 代码组成说明
+```markdown
+callback-service-nodejs
+├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
+├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
+├── server.js                            // 主入口程序
+├── package.json                         // 配置依赖库
+├── package-lock.json                    // 依赖库的具体源和版本信息
+└── README.md
+```
+
 ## 样例运行
 ### 依赖库下载
 在运行之前，我们需要将工程所依赖的库下载到本地，可以使用以下命令下载：

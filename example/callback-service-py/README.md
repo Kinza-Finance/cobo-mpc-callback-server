@@ -12,6 +12,17 @@ pyenv是一个非常好用的Python环境管理工具。有以下主要特性：
 网络上已经有了大量的安装教程，这里就不再赘述
 
 值得提醒的一点就是，我们推荐按照Python3.0及以上的版本，不再使用Python2.x版本。
+
+## 代码组成说明
+```markdown
+callback-service-py
+├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
+├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
+├── main.py                              // 主入口程序
+├── requirements.txt                     // 配置依赖库
+└── README.md
+```
+
 ## 样例运行
 ### 依赖库下载
 > [Tips]

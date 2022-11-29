@@ -12,6 +12,19 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 如果您的系统是Windows，则可以参考以下[文档](https://learn.microsoft.com/zh-cn/windows/dev-environment/rust/setup)进行安装。
 
+## 代码组成说明
+```markdown
+callback-service-rust
+├── pom.xml // maven工程配置文件
+├── src
+│   ├── main.rs                                  // 主入口程序
+│   ├── cobo-tss-node-risk-control-pub.key       // TSS Node端提供的RSA通信公钥
+│   └── customer-risk-control-server-pri.key     // Callback 端生成的通信私钥
+├── Cargo.lock                                   // 配置依赖库的源和版本信息
+├── Cargo.toml                                   // 配置依赖库
+└── README.md
+```
+
 ## 样例运行
 ### 编译代码
 > [Tips]

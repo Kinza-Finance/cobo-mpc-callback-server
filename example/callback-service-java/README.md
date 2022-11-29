@@ -32,6 +32,21 @@ a-maven-project
 export MAVEN_HOME=xxx
 export PATH=$PATH:$MAVEN_HOME/bin
 ```
+
+## 代码组成说明
+```markdown
+callback-service-java
+├── pom.xml // maven工程配置文件
+├── src
+│   └── main
+│      ├── java
+│      │   └── com.cobo.tss.example.CallbackServer.java // Callback Server主程序
+│      └── resources
+│          ├── cobo-tss-node-risk-control-pub.key       // TSS Node端提供的RSA通信公钥
+│          └── customer-risk-control-server-pri.key     // Callback 端生成的通信私钥
+└── README.md
+```
+
 ## 样例运行
 <B>强烈建议您使用支持JAVA的IDEA来完成以下操作</B>，在IDEA中进行代码编译与服务运行的一体化操作。如果没有安装IDEA或者不愿意使用IDEA，则也可以通过下面的命令行来完成操作。
 ### 代码编译

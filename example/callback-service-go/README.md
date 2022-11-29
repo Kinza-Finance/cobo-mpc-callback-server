@@ -18,6 +18,16 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ```
 上面这些命令对于Mac和Unix用户来说最好是写入.bashrc或者.zshrc文件，对于windows用户来说当然是写入环境变量。
 
+## 代码组成说明
+```markdown
+callback-service-go
+├── service                              // Callback Server程序
+├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
+├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
+├── main.go                              // 主入口程序
+└── README.md
+```
+
 ## 样例运行
 ### 代码编译
 ```markdown
