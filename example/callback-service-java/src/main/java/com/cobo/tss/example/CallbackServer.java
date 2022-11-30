@@ -3,15 +3,17 @@ package com.cobo.tss.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hellokaton.blade.Blade;
 import com.hellokaton.blade.annotation.Path;
+import com.hellokaton.blade.annotation.request.Body;
 import com.hellokaton.blade.annotation.request.Form;
+import com.hellokaton.blade.annotation.route.GET;
 import com.hellokaton.blade.annotation.route.POST;
 import com.hellokaton.blade.mvc.ui.ResponseType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.web3j.utils.Numeric;
 
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
@@ -21,88 +23,8 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
-
-class CallBackRequest implements Serializable{
-    public int request_type;
-
-    public String request_id;
-
-    public String meta;
-
-    public int getRequest_type() {
-        return this.request_type;
-    }
-
-    public void setRequest_type(int requestType) {
-        this.request_type = requestType;
-    }
-
-    public String getRequest_id() {
-        return this.request_id;
-    }
-
-    public void setRequest_id(String requestID) {
-        this.request_id = requestID;
-    }
-
-    public String getMeta() {
-        return this.meta;
-    }
-
-    public void setMeta(String meta) {
-        this.meta = meta;
-    }
-}
-
-class CallBackResponse implements Serializable {
-    public static final String ActionApprove = "APPROVE";
-    public static final String ActionReject = "REJECT";
-    public static final String ActionWait = "WAIT";
-
-    public int status;
-    public String request_id;
-    public String action; //[APPROVE, REJECT, WAIT]
-    public String error;
-
-    public CallBackResponse(int status, String requestID, String action, String errorInfo) {
-        this.status = status;
-        this.request_id = requestID;
-        this.action = action;
-        this.error = errorInfo;
-    }
-
-    public int getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getRequest_id() {
-        return this.request_id;
-    }
-
-    public void setRequest_id(String requestID) {
-        this.request_id = requestID;
-    }
-
-    public String getAction() {
-        return this.action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getError() {
-        return this.error;
-    }
-
-    public void setError(String errorInfo) {
-        this.error = errorInfo;
-    }
-}
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Path
 public class CallbackServer {
@@ -125,6 +47,10 @@ public class CallbackServer {
     private static final String PRIVATE_KEY_PATH = "customer-risk-control-server-pri.key";
 
     private static final String PUBLIC_KEY_PATH = "cobo-tss-node-risk-control-pub.key";
+
+    public Map<String, Boolean> RcvWhiteListMap = new ConcurrentHashMap<>();
+
+    public Map<String, CallBackResponse> rspMemStorage = new ConcurrentHashMap<>();
 
     /**
      * 获取PrivateKey对象
@@ -183,8 +109,8 @@ public class CallbackServer {
 
     private String MarshalResponse(CallBackResponse resp) {
         try {
-            ObjectMapper objectMapper1 = new ObjectMapper();
-            byte[] data =  objectMapper1.writeValueAsBytes(resp);
+            ObjectMapper objectMapper = new ObjectMapper();
+            byte[] data =  objectMapper.writeValueAsBytes(resp);
             String payload = Base64.getEncoder().encodeToString(data);
 
             return payload;
@@ -210,21 +136,64 @@ public class CallbackServer {
     }
 
     private String process_keygen_request(String request_id, String meta) {
-        // risk control logical
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            KeyGenMeta kgMeta = objectMapper.readValue(meta, KeyGenMeta.class);
 
-        return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, ""));
+            // risk control logical
+
+            // mock long time risk control, and save CallBackResponse to mem storage
+            CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
+            rspMemStorage.put(request_id, rsp);
+
+            // just return WAIT response, let it retry again to get the result
+            return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionWait, ""));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return create_error_token(StatusInternalError, e.toString());
+        }
     }
 
     private String process_keysign_request(String request_id, String meta) {
-        // risk control logical
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            KeySignMeta ksMeta = objectMapper.readValue(meta, KeySignMeta.class);
 
-        return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, ""));
+            // risk control logical
+            if (RcvWhiteListMap.get(ksMeta.to_address) == null ) {
+                return createResponseToken(new CallBackResponse(StatusInvalidRequest, request_id,
+                        CallBackResponse.ActionReject, "The target receiver address is not in whitelist"));
+            }
+
+            // mock long time risk control, and save CallBackResponse to mem storage
+            CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
+            rspMemStorage.put(request_id, rsp);
+
+            // just return WAIT response, let it retry again to get the result
+            return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionWait, ""));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return create_error_token(StatusInternalError, e.toString());
+        }
     }
 
     private String process_keyreshare_request(String request_id, String meta) {
-        // risk control logical
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            KeyReshareMeta krsMeta = objectMapper.readValue(meta, KeyReshareMeta.class);
 
-        return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, ""));
+            // risk control logical
+
+            // mock long time risk control, and save CallBackResponse to mem storage
+            CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
+            rspMemStorage.put(request_id, rsp);
+
+            // just return WAIT response, let it retry again to get the result
+            return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionWait, ""));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return create_error_token(StatusInternalError, e.toString());
+        }
     }
 
     private String create_error_token(int status, String errInfo) {
@@ -233,8 +202,51 @@ public class CallbackServer {
 
     private String parseJWT(String token) throws Exception{
         PublicKey key = getRSAPublicKey();
-        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+
         return claims.get(JWT_PAYLOAD, String.class);
+    }
+
+    public static boolean isBTCValidAddress(String input) {
+        input = input.trim();
+        int Addrlen = input.length();
+        if (Addrlen < 25) {
+            return false;
+        }
+
+        if (input.startsWith("1")) {
+            if (Addrlen >= 26 && Addrlen <= 34) {
+                return true;
+            }
+        }
+
+        if(input.startsWith("3") && Addrlen == 34) {
+            return true;
+        }
+
+        if (input.startsWith("bc1") && Addrlen > 34) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isETHValidAddress(String input) {
+        if (input.trim().isEmpty() || !input.startsWith("0x"))
+            return false;
+        return isValidAddress(input);
+    }
+
+    public static boolean isValidAddress(String input) {
+        String cleanInput = Numeric.cleanHexPrefix(input);
+
+        try {
+            Numeric.toBigIntNoPrefix(cleanInput);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return cleanInput.length() == 40;
     }
 
     @POST(value = "/v1/check", responseType = ResponseType.TEXT)
@@ -251,6 +263,12 @@ public class CallbackServer {
             ObjectMapper objectMapper = new ObjectMapper();
             CallBackRequest req = objectMapper.readValue(payload, CallBackRequest.class);
 
+            // first check if the request has already been deal with
+            CallBackResponse rst = rspMemStorage.get(req.request_id);
+            if ( rst != null){
+                return createResponseToken(rst);
+            }
+
             switch (req.request_type) {
                 case TypeKeyGen:
                     return process_keygen_request(req.request_id, req.meta);
@@ -264,6 +282,48 @@ public class CallbackServer {
         } catch (Exception e) {
             return create_error_token(StatusInternalError, e.toString());
         }
+    }
+
+    @POST(value = "/add_rcv_address", responseType = ResponseType.JSON)
+    public AddressWhitelistResponse addReceiverAddress(@Body String req) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            AddressWhitelistRequest wlReq = objectMapper.readValue(req, AddressWhitelistRequest.class);
+
+            if(!isETHValidAddress(wlReq.address) && !isBTCValidAddress(wlReq.address)) {
+                return new AddressWhitelistResponse(400, "Receiver address is not valid btc or eth address");
+            }
+
+            RcvWhiteListMap.put(wlReq.address, true);
+            return new AddressWhitelistResponse(200, "");
+        } catch(Exception e) {
+            return new AddressWhitelistResponse(400, e.toString());
+        }
+    }
+
+    @POST(value = "/rm_rcv_address", responseType = ResponseType.JSON)
+    public AddressWhitelistResponse removeReceiverAddress(@Body String req) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            AddressWhitelistRequest wlReq = objectMapper.readValue(req, AddressWhitelistRequest.class);
+
+            RcvWhiteListMap.remove(wlReq.address);
+            return new AddressWhitelistResponse(200, "");
+        } catch(Exception e) {
+            return new AddressWhitelistResponse(400, e.toString());
+        }
+    }
+
+    @GET(value = "/list_rcv_address", responseType = ResponseType.JSON)
+    public ListAddressWhitelistResponse listReceiverAddress() {
+        String[] rst = new String[RcvWhiteListMap.size()];
+        int idx = 0;
+        for(String key : RcvWhiteListMap.keySet()) {
+            rst[idx] = key;
+            idx += 1;
+        }
+        
+        return new ListAddressWhitelistResponse(rst);
     }
 
     public static void main(String[] args) {

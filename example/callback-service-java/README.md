@@ -57,7 +57,7 @@ mvn compile
 代码编译之后，默认会在当前目录生成一个`target`文件夹，里面有编译好了的Class文件。
 
 ### 服务配置
-在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考COBO[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
+在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
 
 <B>说明</B>
 

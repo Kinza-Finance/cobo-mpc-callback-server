@@ -53,7 +53,7 @@ pip3.x install ./requirements.txt
 命令运行完成之后，相关的依赖库就已经下载到了本地。
 
 ### 服务配置
-在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考COBO[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
+在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
 
 ### 服务运行
 完成服务配置之后，我们就可以启动CallBack服务了。
