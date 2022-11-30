@@ -1,6 +1,6 @@
 package main
 
-import "github.com/cobo/cobo-mpc-callback-service-examples/example/callback-service-go/service"
+import "github.com/cobo/cobo-mpc-callback-server-examples/example/callback-server-go/service"
 
 func main() {
 	config := &service.CallBackConfig{

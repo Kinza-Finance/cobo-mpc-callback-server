@@ -1,4 +1,4 @@
-# callback-service-nodejs
+# callback-server-nodejs
 
 ## 环境配置
 有两种方式安装Node.js：一种是通过安装包或者源码安装，另一种是nvm安装。
@@ -16,7 +16,7 @@ export NVM_DIR=xxx
 
 ## 代码组成说明
 ```markdown
-callback-service-nodejs
+callback-server-nodejs
 ├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
 ├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
 ├── server.js                            // 主入口程序

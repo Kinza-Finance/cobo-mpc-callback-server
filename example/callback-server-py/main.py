@@ -37,8 +37,8 @@ class PackageDataClaim:
         self.sub = sub
 
 class Meta:
-    def __init__(self, request_id: str = None):
-        self.request_id = request_id
+    def __init__(self, cobo_id: str = None):
+        self.cobo_id = cobo_id
 
 
 class CallBackRequest:
@@ -121,7 +121,7 @@ class CallBackService(object):
             return
 
     def process_keygen_request(self, request_id: str, meta: str, resp):
-        key_gen_meta = marshal.unmarshal(Meta, json.loads(meta))
+        # key_gen_meta = marshal.unmarshal(Meta, json.loads(meta))
 
         # risk control logical
 
@@ -130,7 +130,7 @@ class CallBackService(object):
         return
 
     def process_keysign_request(self, request_id: str, meta: str, resp):
-        key_sign_meta = marshal.unmarshal(Meta, json.loads(meta))
+        # key_sign_meta = marshal.unmarshal(Meta, json.loads(meta))
 
         # risk control logical
 
@@ -139,7 +139,7 @@ class CallBackService(object):
         return
 
     def process_keyreshare_request(self, request_id: str, meta: str, resp):
-        key_reshare_meta = marshal.unmarshal(Meta, json.loads(meta))
+        # key_reshare_meta = marshal.unmarshal(Meta, json.loads(meta))
 
         # risk control logical
 

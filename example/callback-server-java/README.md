@@ -1,4 +1,4 @@
-# callback-service-java
+# callback-server-java
 
 ## 环境配置
 ### 安装Java SDK
@@ -35,12 +35,15 @@ export PATH=$PATH:$MAVEN_HOME/bin
 
 ## 代码组成说明
 ```markdown
-callback-service-java
+callback-server-java
 ├── pom.xml // maven工程配置文件
 ├── src
 │   └── main
 │      ├── java
-│      │   └── com.cobo.tss.example.CallbackServer.java // Callback Server主程序
+│      │   └── com/cobo/tss/example
+│      │        ├── CallbackServer.java  // Callback Server主程序
+│      │        ├── Types.java           // jwt 相关类型定义
+│      │        └── WhiteListRule.java   // 白名单风控相关代码
 │      └── resources
 │          ├── cobo-tss-node-risk-control-pub.key       // TSS Node端提供的RSA通信公钥
 │          └── customer-risk-control-server-pri.key     // Callback 端生成的通信私钥
@@ -68,3 +71,63 @@ mvn compile
 mvn exec:java -Dexec.mainClass="com.cobo.tss.example.CallbackServer"
 ```
 之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.3shma34oqi61)。
+
+### 白名单操作
+在我们提供的Java语言版本的样例中，我们也实现了一个简单的白名单风控功能，对KeySign的目标接收地址进行风控，以下是其简单的使用说明。
+#### 添加白名单
+请求示例：
+```markdown
+curl --location --request POST '127.0.0.1:11020/add_rcv_address' \
+--header 'Content-Type: application/json' \
+--data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540c"}'
+```
+响应示例：
+```json
+{
+  "status": 200,
+  "error": ""
+}
+```
+白名单对地址格式也有一个简单的要求：只能添加以太坊或者比特币格式的地址，如果地址格式不对，将会返回错误。
+请求示例：
+```markdown
+curl --location --request POST '127.0.0.1:11020/add_rcv_address' \
+--header 'Content-Type: application/json' \
+--data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540c123"}'
+```
+响应示例：
+```json
+{
+  "status": 400,
+  "error": "Receiver address is not valid btc or eth address"
+}
+```
+#### 移出白名单
+请求示例：
+```markdown
+curl --location --request POST '127.0.0.1:11020/rm_rcv_address' \
+--header 'Content-Type: application/json' \
+--data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540e"}'
+```
+响应示例：
+```json
+{
+  "status": 200,
+  "error": ""
+}
+```
+#### 查询白名单
+请求示例：
+```markdown
+curl --location --request GET '127.0.0.1:11020/list_rcv_address' \
+--header 'Content-Type: application/json'
+```
+响应示例：
+```json
+{
+  "address_list": [
+    "0xEEACb7a5e53600c144C0b9839A834bb4b39E540e",
+    "0xEEACb7a5e53600c144C0b9839A834bb4b39E540c"
+  ]
+}
+```

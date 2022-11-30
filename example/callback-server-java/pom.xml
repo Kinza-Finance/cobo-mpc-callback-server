@@ -5,13 +5,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
-    <artifactId>callback-service-java</artifactId>
+    <artifactId>callback-server-java</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>A example project to handle jwt callback for tss node</name>
 
     <build>
-        <finalName>callback-service-java</finalName>
+        <finalName>callback-server-java</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

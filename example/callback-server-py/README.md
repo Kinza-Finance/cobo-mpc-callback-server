@@ -1,4 +1,4 @@
-# callback-service-py
+# callback-server-py
 
 ## 环境配置
 有两种方式安装Node.js：一种是通过安装包安装，另一种是pyenv安装。
@@ -15,7 +15,7 @@ pyenv是一个非常好用的Python环境管理工具。有以下主要特性：
 
 ## 代码组成说明
 ```markdown
-callback-service-py
+callback-server-py
 ├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
 ├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
 ├── main.py                              // 主入口程序
@@ -48,7 +48,7 @@ callback-service-py
 > 
 在运行之前，我们需要将工程所依赖的库下载到本地，可以使用以下命令下载：
 ```markdown
-pip3.x install ./requirements.txt 
+pip3.x install -r ./requirements.txt 
 ```
 命令运行完成之后，相关的依赖库就已经下载到了本地。
 

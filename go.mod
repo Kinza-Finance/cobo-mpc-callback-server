@@ -1,4 +1,4 @@
-module github.com/cobo/cobo-mpc-callback-service-examples
+module github.com/cobo/cobo-mpc-callback-server-examples
 
 go 1.18
 

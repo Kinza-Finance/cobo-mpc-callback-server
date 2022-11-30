@@ -1,4 +1,4 @@
-# callback-service-rust
+# callback-server-rust
 
 ## 环境配置
 Rust由工具rustup安装和管理。rustup用于管理不同平台下的Rust构建版本并使其互相兼容，支持安装由Beta和Nightly频道发布的版本，并支持其他用于交叉编译的编译版本。
@@ -14,7 +14,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## 代码组成说明
 ```markdown
-callback-service-rust
+callback-server-rust
 ├── pom.xml // maven工程配置文件
 ├── src
 │   ├── main.rs                                  // 主入口程序
