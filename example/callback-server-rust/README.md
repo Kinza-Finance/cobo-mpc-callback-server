@@ -18,8 +18,8 @@ callback-server-rust
 ├── pom.xml // maven工程配置文件
 ├── src
 │   ├── main.rs                                  // 主入口程序
-│   ├── cobo-tss-node-risk-control-pub.key       // TSS Node端提供的RSA通信公钥
-│   └── customer-risk-control-server-pri.key     // Callback 端生成的通信私钥
+│   ├── tss-node-callback-client-pub.key         // TSS Node 端提供的 RSA 公钥
+│   └── callback-server-pri.pem                  // Callback Server 端生成的 RSA 私钥
 ├── Cargo.lock                                   // 配置依赖库的源和版本信息
 ├── Cargo.toml                                   // 配置依赖库
 └── README.md
@@ -27,7 +27,7 @@ callback-server-rust
 
 ## 样例运行
 ### 编译代码
-> [Tips]
+> **Tips**
 > 
 > Cargo是Rust的构建系统和包管理器。大多数Rust开发人员使用Cargo来管理他们的Rust项目，因为它可以为你处理很多任务，比如构建代码、下载依赖库并编译这些库。（我们把代码所需要的库叫做依赖（dependencies））。
 > 

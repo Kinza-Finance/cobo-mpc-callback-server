@@ -17,8 +17,8 @@ export NVM_DIR=xxx
 ## 代码组成说明
 ```markdown
 callback-server-nodejs
-├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
-├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
+├── tss-node-callback-client-pub.key     // TSS Node 端提供的 RSA 公钥
+├── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
 ├── server.js                            // 主入口程序
 ├── package.json                         // 配置依赖库
 ├── package-lock.json                    // 依赖库的具体源和版本信息

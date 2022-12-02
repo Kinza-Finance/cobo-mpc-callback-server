@@ -45,8 +45,8 @@ callback-server-java
 │      │        ├── Types.java           // jwt 相关类型定义
 │      │        └── WhiteListRule.java   // 白名单风控相关代码
 │      └── resources
-│          ├── cobo-tss-node-risk-control-pub.key       // TSS Node端提供的RSA通信公钥
-│          └── customer-risk-control-server-pri.key     // Callback 端生成的通信私钥
+│          ├── tss-node-callback-client-pub.key     // TSS Node 端提供的 RSA 公钥
+│          └── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
 └── README.md
 ```
 
@@ -74,6 +74,10 @@ mvn exec:java -Dexec.mainClass="com.cobo.tss.example.CallbackServer"
 
 ### 白名单操作
 在我们提供的Java语言版本的样例中，我们也实现了一个简单的白名单风控功能，对KeySign的目标接收地址进行风控，以下是其简单的使用说明。
+> **Warning**
+>
+> 本代码只是样例代码，仅供参考学习用。如果要在生产环境中使用配置输入，您需要做好接口的访问鉴权工作。
+>
 #### 添加白名单
 请求示例：
 ```markdown

@@ -16,8 +16,8 @@ pyenv是一个非常好用的Python环境管理工具。有以下主要特性：
 ## 代码组成说明
 ```markdown
 callback-server-py
-├── cobo-tss-node-risk-control-pub.key   // TSS Node端提供的RSA通信公钥
-├── customer-risk-control-server-pri.key // Callback 端生成的通信私钥
+├── tss-node-callback-client-pub.key     // TSS Node 端提供的 RSA 公钥
+├── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
 ├── main.py                              // 主入口程序
 ├── requirements.txt                     // 配置依赖库
 └── README.md
@@ -25,7 +25,7 @@ callback-server-py
 
 ## 样例运行
 ### 依赖库下载
-> [Tips]
+> **Tips**
 > 
 > 为了保持开发环境的整洁性，我们可以使用python提供的venv来给每个程序提供一套完全隔离的运行环境。
 >
