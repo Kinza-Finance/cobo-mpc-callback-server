@@ -13,6 +13,8 @@ const (
 	TypeKeyGen     = 1
 	TypeKeySign    = 2
 	TypeKeyReshare = 3
+
+	TransactionTypeWidthDraw = "WITHDRAW"
 )
 
 type PackageDataClaim struct {
@@ -29,25 +31,28 @@ type KeyGenMeta struct {
 }
 
 type KeySignMeta struct {
-	CoboID           string   `json:"cobo_id"`
-	RequestID        string   `json:"request_id"`
-	Coin             string   `json:"coin"`
-	FromAddress      string   `json:"from_address"`
-	ToAddress        string   `json:"to_address"`
-	Amount           int      `json:"amount"`
-	AmountStr        string   `json:"amount_str"`
-	ToAddressDetails string   `json:"to_address_details"` // json
-	Fee              string   `json:"fee"`
-	ExtraParameters  string   `json:"extra_parameters"` // json
-	ApiKey           string   `json:"api_key"`
-	Spender          string   `json:"spender"`
-	NodeIds          []string `json:"node_ids"`
-	RawTx            []string `json:"raw_tx"`
+	CoboID           string         `json:"cobo_id"`
+	ApiRequestID     string         `json:"api_request_id"`
+	TransactionType  string         `json:"transaction_type"` // TransactionTypeEnum
+	Coin             string         `json:"coin"`
+	FromAddress      string         `json:"from_address"`
+	Amount           string         `json:"amount"`
+	ToAddress        string         `json:"to_address"`
+	ToAddressDetails string         `json:"to_address_details"` // json, []KeySignToAddressDetail
+	Fee              int            `json:"fee"`
+	GasPrice         int            `json:"gas_price"`
+	GasLimit         int            `json:"gas_limit"`
+	ExtraParameters  string         `json:"extra_parameters"` // json
+	ApiKey           string         `json:"api_key"`
+	Spender          string         `json:"spender"`
+	NodeIds          []string       `json:"node_ids"`
+	RawTx            []KeySignRawTx `json:"raw_tx"`
+	Note             string         `json:"note"`
 }
 
-type KeySignToAddressDetails struct {
+type KeySignToAddressDetail struct {
 	ToAddress string `json:"to_address"`
-	Amount    int    `json:"amount"`
+	Amount    string `json:"amount"`
 }
 
 type KeySignExtraParameters struct {
@@ -58,6 +63,11 @@ type KeySignExtraParameters struct {
 type Input struct {
 	TxHash string `json:"tx_hash"`
 	VoutN  int    `json:"vout_n"`
+}
+
+type KeySignRawTx struct {
+	RawTx          string `json:"raw_tx"`
+	DerivationPath string `json:"derivation_path"`
 }
 
 type KeyReshareMeta struct {

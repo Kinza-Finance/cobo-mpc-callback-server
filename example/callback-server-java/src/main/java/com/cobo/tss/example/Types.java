@@ -120,21 +120,29 @@ class KeyGenMeta implements Serializable{
     }
 }
 
+enum TransactionType
+{
+    WITHDRAW;
+}
+
 class KeySignMeta implements Serializable {
     public String cobo_id;
-    public String request_id;
+    public String api_request_id;
+    public String transaction_type;
     public String coin;
     public String from_address;
+    public String amount ;
     public String to_address;
-    public long amount ;
-    public String amount_str;
-    public String to_address_details; // json
-    public String fee;
+    public String to_address_details; // json, ToAddressDetail[]
+    public long fee;
+    public long gas_price;
+    public long gas_limit;
     public String extra_parameters; // json
     public String api_key;
     public String spender;
     public String[] node_ids;
     public RawTx[] raw_tx; // RawTx
+    public String note;
 
     public String getCobo_id() {
         return cobo_id;
@@ -144,12 +152,20 @@ class KeySignMeta implements Serializable {
         this.cobo_id = cobo_id;
     }
 
-    public String getRequest_id() {
-        return request_id;
+    public String getApi_request_id() {
+        return api_request_id;
     }
 
-    public void setRequest_id(String request_id) {
-        this.request_id = request_id;
+    public void setApi_request_id(String api_request_id) {
+        this.api_request_id = api_request_id;
+    }
+
+    public String getTransaction_type() {
+        return transaction_type;
+    }
+
+    public void setTransaction_type(String transaction_type) {
+        this.transaction_type = transaction_type;
     }
 
     public String getCoin() {
@@ -168,28 +184,20 @@ class KeySignMeta implements Serializable {
         this.from_address = from_address;
     }
 
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
     public String getTo_address() {
         return to_address;
     }
 
     public void setTo_address(String to_address) {
         this.to_address = to_address;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(long amount) {
-        this.amount = amount;
-    }
-
-    public String getAmount_str() {
-        return amount_str;
-    }
-
-    public void setAmount_str(String amount_str) {
-        this.amount_str = amount_str;
     }
 
     public String getTo_address_details() {
@@ -200,12 +208,28 @@ class KeySignMeta implements Serializable {
         this.to_address_details = to_address_details;
     }
 
-    public String getFee() {
+    public long getFee() {
         return fee;
     }
 
-    public void setFee(String fee) {
+    public void setFee(long fee) {
         this.fee = fee;
+    }
+
+    public long getGas_price() {
+        return gas_price;
+    }
+
+    public void setGas_price(long gas_price) {
+        this.gas_price = gas_price;
+    }
+
+    public long getGas_limit() {
+        return gas_limit;
+    }
+
+    public void setGas_limit(long gas_limit) {
+        this.gas_limit = gas_limit;
     }
 
     public String getExtra_parameters() {
@@ -247,11 +271,19 @@ class KeySignMeta implements Serializable {
     public void setRaw_tx(RawTx[] raw_tx) {
         this.raw_tx = raw_tx;
     }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
 
-class ToAddressDetails implements Serializable{
+class ToAddressDetail implements Serializable{
     public String to_address;
-    public int amount;
+    public String amount;
 
     public String getTo_address() {
         return to_address;
@@ -261,11 +293,11 @@ class ToAddressDetails implements Serializable{
         this.to_address = to_address;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 }
@@ -314,20 +346,12 @@ class ExtraParameters implements Serializable {
 
 class RawTx implements Serializable {
     public String raw_tx;
-    public String[] derivation_path;
+    public String derivation_path;
 
     public RawTx() {}
 
-    public RawTx(String raw_tx, String[] derivation_path) {
+    public RawTx(String raw_tx, String derivation_path) {
         this.raw_tx = raw_tx;
-        this.derivation_path = derivation_path;
-    }
-
-    public RawTx(String raw_tx) {
-        this.raw_tx = raw_tx;
-    }
-
-    public RawTx(String[] derivation_path) {
         this.derivation_path = derivation_path;
     }
 
@@ -339,11 +363,11 @@ class RawTx implements Serializable {
         this.raw_tx = raw_tx;
     }
 
-    public String[] getDerivation_path() {
+    public String getDerivation_path() {
         return derivation_path;
     }
 
-    public void setDerivation_path(String[] derivation_path) {
+    public void setDerivation_path(String derivation_path) {
         this.derivation_path = derivation_path;
     }
 }
