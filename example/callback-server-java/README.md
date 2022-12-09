@@ -45,7 +45,7 @@ callback-server-java
 │      │        ├── Types.java           // jwt 相关类型定义
 │      │        └── WhiteListRule.java   // 白名单风控相关代码
 │      └── resources
-│          ├── tss-node-callback-client-pub.key     // TSS Node 端提供的 RSA 公钥
+│          ├── cobo-tss-node-risk-control-pub.key   // TSS Node 端提供的 RSA 公钥
 │          └── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
 └── README.md
 ```

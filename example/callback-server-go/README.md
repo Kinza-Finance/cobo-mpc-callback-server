@@ -5,7 +5,7 @@
 Go有多种安装方式，以下是三种最常见的安装方式，您可以选择自己喜欢的方式安装：
 
 * Go标准包安装：Go提供了方便的安装包，支持Windows、Linux、Mac等系统。这种方式适合快速安装，可根据自己的系统位数下载好相应的安装包，一路 next 就可以轻松安装了。推荐这种方式 
-* 第三方工具安装：目前有很多方便的第三方软件包工具，例如 Ubuntu 的 apt-ge t和 wget、Mac 的 homebrew 等。这种安装方式适合那些熟悉相应系统的用户。 
+* 第三方工具安装：目前有很多方便的第三方软件包工具，例如 Ubuntu 的 apt-get 和 wget，Mac 的 homebrew 等。这种安装方式适合那些熟悉相应系统的用户。
 * Go源码安装：这是一种标准的软件安装方式。对于经常使用Unix类系统的用户，尤其对于开发者来说，从源码安装可以自己定制。
 
 最后，如果您想在同一个系统中安装多个版本的Go，您可以参考第三方工具[GVM](https://github.com/moovweb/gvm)，这是目前在这方面做的最好的工具，除非您知道怎么处理。
@@ -22,7 +22,7 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ```markdown
 callback-server-go
 ├── service                              // Callback Server程序
-├── tss-node-callback-client-pub.key     // TSS Node 端提供的 RSA 公钥
+├── cobo-tss-node-risk-control-pub.key   // TSS Node 端提供的 RSA 公钥
 ├── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
 ├── main.go                              // 主入口程序
 └── README.md

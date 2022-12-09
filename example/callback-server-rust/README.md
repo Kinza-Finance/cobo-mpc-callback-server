@@ -18,7 +18,7 @@ callback-server-rust
 ├── pom.xml // maven工程配置文件
 ├── src
 │   ├── main.rs                                  // 主入口程序
-│   ├── tss-node-callback-client-pub.key         // TSS Node 端提供的 RSA 公钥
+│   ├── cobo-tss-node-risk-control-pub.key       // TSS Node 端提供的 RSA 公钥
 │   └── callback-server-pri.pem                  // Callback Server 端生成的 RSA 私钥
 ├── Cargo.lock                                   // 配置依赖库的源和版本信息
 ├── Cargo.toml                                   // 配置依赖库
