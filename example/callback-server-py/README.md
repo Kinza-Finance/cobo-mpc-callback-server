@@ -1,7 +1,7 @@
 # callback-server-py
 
 ## 环境配置
-有两种方式安装Node.js：一种是通过安装包安装，另一种是pyenv安装。
+有两种方式安装Python：一种是通过安装包安装，另一种是pyenv安装。
 
 pyenv是一个非常好用的Python环境管理工具。有以下主要特性：
 * 方便的安装、管理不同版本的Python，而且不需要sudo权限，不会污染系统的Python版本
