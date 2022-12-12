@@ -44,7 +44,7 @@ public class CallbackServer {
 
     private static final String ISSUER = "TEST-001";
 
-    private static final String PRIVATE_KEY_PATH = "customer-risk-control-server-pri.key";
+    private static final String PRIVATE_KEY_PATH = "callback-server-pri.pem";
 
     private static final String PUBLIC_KEY_PATH = "cobo-tss-node-risk-control-pub.key";
 

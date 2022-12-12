@@ -54,7 +54,7 @@ fn generate_response_token(res: CallBackResponse) -> String {
         exp: exp.as_secs() as usize,
     };
 
-    let callback_handler_prikey = include_bytes!("customer-risk-control-server-pri.key");
+    let callback_handler_prikey = include_bytes!("callback-server-pri.pem");
     let key = EncodingKey::from_rsa_pem(callback_handler_prikey).unwrap();
     let header = &Header::new(Algorithm::RS256);
 

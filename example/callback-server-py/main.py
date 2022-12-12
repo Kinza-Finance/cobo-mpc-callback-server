@@ -156,7 +156,7 @@ extra_handlers = {
 app.req_options.media_handlers.update(extra_handlers)
 
 cbService = CallBackService(service_name="TEST-001", token_expired_minutes=2, callback_pubkey_path="./cobo-tss-node-risk-control-pub.key",
-                            callback_handler_prikey_path="./customer-risk-control-server-pri.key")
+                            callback_handler_prikey_path="./callback-server-pri.pem")
 
 app.add_route('/v1/check', cbService, suffix='check')
 

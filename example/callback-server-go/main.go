@@ -8,7 +8,7 @@ func main() {
 		Endpoint:                  "localhost:11020",
 		TokenExpireMinutes:        2,
 		CallBackPubKeyPath:        "./cobo-tss-node-risk-control-pub.key",   // TSS Node's pub key to verify token received
-		CallBackHandlerPriKeyPath: "./customer-risk-control-server-pri.key", // local pri key to generate token
+		CallBackHandlerPriKeyPath: "./callback-server-pri.pem", // local pri key to generate token
 		EnableDebug:               false,
 	}
 

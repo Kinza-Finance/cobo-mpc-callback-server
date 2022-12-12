@@ -16,7 +16,7 @@ const TypeKeyReshare = 3
 
 const service_name = "TEST-001";
 const token_expired_minutes = 2;
-const callback_handler_prikey = fs.readFileSync('./customer-risk-control-server-pri.key')
+const callback_handler_prikey = fs.readFileSync('./callback-server-pri.pem')
 const callback_pubkey = fs.readFileSync('./cobo-tss-node-risk-control-pub.key')
 
 // the callBackResponse should be like this:
