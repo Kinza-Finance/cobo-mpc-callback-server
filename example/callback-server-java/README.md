@@ -68,7 +68,7 @@ mvn compile
 ### 服务运行
 完成服务配置之后，我们就可以启动CallBack服务了。
 ```markdown
-mvn exec:java -Dexec.mainClass="com.cobo.tss.example.CallbackServer"
+mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath com.cobo.tss.example.CallbackServer"
 ```
 之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.3shma34oqi61)。
 
