@@ -78,8 +78,9 @@ let errorHandler = (err, req, res, next) => {
 }
 app.use(errorHandler)
 
-let process_keygen_request = (request_id, meta, res) => {
-    const keyGenMeta = JSON.parse(meta);
+let process_keygen_request = (request_id, request_detail, extra_info, res) => {
+    const kgDetail = JSON.parse(request_detail);
+    const rawExtraInfo = JSON.parse(extra_info);
 
     // risk control logical
 
@@ -91,8 +92,9 @@ let process_keygen_request = (request_id, meta, res) => {
     })
 }
 
-let process_keysign_request = (request_id, meta, res) => {
-    const keySignMeta = JSON.parse(meta);
+let process_keysign_request = (request_id, request_detail, extra_info, res) => {
+    const ksDetail = JSON.parse(request_detail);
+    const rawExtraInfo = JSON.parse(extra_info);
 
     // risk control logical
 
@@ -104,8 +106,9 @@ let process_keysign_request = (request_id, meta, res) => {
     })
 }
 
-let process_keyreshare_request = (request_id, meta, res) => {
-    const keyReshareMeta = JSON.parse(meta);
+let process_keyreshare_request = (request_id, request_detail, extra_info, res) => {
+    const krDetail = JSON.parse(request_detail);
+    const rawExtraInfo = JSON.parse(extra_info);
 
     // risk control logical
 
@@ -129,7 +132,8 @@ app.post('/v1/check', function (req, res) {
     // {
     //     request_id:'xxxx',
     //     request_type:1,
-    //     meta:'xxx',
+    //     request_detail: 'xxxx',
+    //     extra_info:'xxx',
     // }
 
     var package_data = Buffer.from(req.auth['package_data'], "base64").toString();
@@ -137,13 +141,13 @@ app.post('/v1/check', function (req, res) {
 
     switch (callBackRequest['request_type']) {
         case TypeKeyGen:
-            process_keygen_request(callBackRequest['request_id'], callBackRequest['meta'], res)
+            process_keygen_request(callBackRequest['request_id'], callBackRequest['request_detail'], callBackRequest['extra_info'], res)
             break;
         case TypeKeySign:
-            process_keysign_request(callBackRequest['request_id'], callBackRequest['meta'], res)
+            process_keysign_request(callBackRequest['request_id'], callBackRequest['request_detail'], callBackRequest['extra_info'], res)
             break;
         case TypeKeyReshare:
-            process_keyreshare_request(callBackRequest['request_id'], callBackRequest['meta'], res)
+            process_keyreshare_request(callBackRequest['request_id'], callBackRequest['request_detail'], callBackRequest['extra_info'], res)
             break;
         default:
             break;
