@@ -27,7 +27,8 @@ struct PackageDataClaim {
 struct CallBackRequest {
     request_type: i32,
     request_id: String,
-    meta: String,
+    request_detail: String,
+    extra_info: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -61,8 +62,9 @@ fn generate_response_token(res: CallBackResponse) -> String {
     return encode(header, &my_claims, &key).unwrap();
 }
 
-fn process_keygen_request(request_id: String, meta: String) -> String {
-    // let keyGenMeta = JSON.parse(meta);
+fn process_keygen_request(request_id: String, request_detail: String, extra_info: String) -> String {
+    // let kgDetail = JSON.parse(request_detail);
+    // let rawExtraInfo = JSON.parse(extra_info);
 
     // risk control logical
 
@@ -74,8 +76,9 @@ fn process_keygen_request(request_id: String, meta: String) -> String {
     })
 }
 
-fn process_keysign_request(request_id: String, meta: String) -> String {
-    // const keySignMeta = JSON.parse(meta);
+fn process_keysign_request(request_id: String, request_detail: String, extra_info: String) -> String {
+    // let kgDetail = JSON.parse(request_detail);
+    // let rawExtraInfo = JSON.parse(extra_info);
 
     // risk control logical
 
@@ -87,8 +90,9 @@ fn process_keysign_request(request_id: String, meta: String) -> String {
     })
 }
 
-fn process_keyreshare_request(request_id: String, meta: String) -> String {
-    // const keyReshareMeta = JSON.parse(meta);
+fn process_keyreshare_request(request_id: String, request_detail: String, extra_info: String) -> String {
+    // let kgDetail = JSON.parse(request_detail);
+    // let rawExtraInfo = JSON.parse(extra_info);
 
     // risk control logical
 
@@ -153,15 +157,15 @@ async fn risk_control(form: web::Form<ReqInfo>) -> impl Responder {
     let req: CallBackRequest = serde_json::from_slice(&raw_data).unwrap();
     match req.request_type {
         TypeKeyGen => {
-            let rst = process_keygen_request(req.request_id, req.meta);
+            let rst = process_keygen_request(req.request_id, req.request_detail, req.extra_info);
             return HttpResponse::Ok().body(rst)
         },
         TypeKeySign => {
-            let rst = process_keysign_request(req.request_id, req.meta);
+            let rst = process_keysign_request(req.request_id, req.request_detail, req.extra_info);
             return HttpResponse::Ok().body(rst)
         },
         TypeKeyReshare => {
-            let rst = process_keyreshare_request(req.request_id, req.meta);
+            let rst = process_keyreshare_request(req.request_id, req.request_detail, req.extra_info);
             return HttpResponse::Ok().body(rst)
         },
         _ => {
