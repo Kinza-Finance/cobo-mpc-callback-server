@@ -1,5 +1,6 @@
 package com.cobo.tss.example;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hellokaton.blade.Blade;
 import com.hellokaton.blade.annotation.Path;
@@ -135,10 +136,14 @@ public class CallbackServer {
         return builder.compact();
     }
 
-    private String process_keygen_request(String request_id, String meta) {
+    private String process_keygen_request(String request_id, String request_detail, String extra_info) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            KeyGenMeta kgMeta = objectMapper.readValue(meta, KeyGenMeta.class);
+            ObjectMapper objectMapper1 = new ObjectMapper();
+            KeyGenDetail kgDetail = objectMapper1.readValue(request_detail, KeyGenDetail.class);
+
+            ObjectMapper objectMapper2 = new ObjectMapper();
+            objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            KeyGenExtraInfo rawExtraInfo = objectMapper2.readValue(extra_info, KeyGenExtraInfo.class);
 
             // risk control logical
 
@@ -154,13 +159,17 @@ public class CallbackServer {
         }
     }
 
-    private String process_keysign_request(String request_id, String meta) {
+    private String process_keysign_request(String request_id, String request_detail, String extra_info) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            KeySignMeta ksMeta = objectMapper.readValue(meta, KeySignMeta.class);
+            ObjectMapper objectMapper1 = new ObjectMapper();
+            KeySignDetail ksDetail = objectMapper1.readValue(request_detail, KeySignDetail.class);
+
+            ObjectMapper objectMapper2 = new ObjectMapper();
+            objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            KeySignExtraInfo rawExtraInfo = objectMapper2.readValue(extra_info, KeySignExtraInfo.class);
 
             // risk control logical
-            if (RcvWhiteListMap.get(ksMeta.to_address) == null ) {
+            if (RcvWhiteListMap.get(rawExtraInfo.to_address) == null ) {
                 return createResponseToken(new CallBackResponse(StatusInvalidRequest, request_id,
                         CallBackResponse.ActionReject, "The target receiver address is not in whitelist"));
             }
@@ -177,10 +186,14 @@ public class CallbackServer {
         }
     }
 
-    private String process_keyreshare_request(String request_id, String meta) {
+    private String process_keyreshare_request(String request_id, String request_detail, String extra_info) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            KeyReshareMeta krsMeta = objectMapper.readValue(meta, KeyReshareMeta.class);
+            ObjectMapper objectMapper1 = new ObjectMapper();
+            KeyReshareDetail krDetail = objectMapper1.readValue(request_detail, KeyReshareDetail.class);
+
+            ObjectMapper objectMapper2 = new ObjectMapper();
+            objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            KeyReshareExtraInfo rawExtraInfo = objectMapper2.readValue(extra_info, KeyReshareExtraInfo.class);
 
             // risk control logical
 
@@ -271,11 +284,11 @@ public class CallbackServer {
 
             switch (req.request_type) {
                 case TypeKeyGen:
-                    return process_keygen_request(req.request_id, req.meta);
+                    return process_keygen_request(req.request_id, req.request_detail, req.extra_info);
                 case TypeKeySign:
-                    return process_keysign_request(req.request_id, req.meta);
+                    return process_keysign_request(req.request_id, req.request_detail, req.extra_info);
                 case TypeKeyReshare:
-                    return process_keyreshare_request(req.request_id, req.meta);
+                    return process_keyreshare_request(req.request_id, req.request_detail, req.extra_info);
                 default:
                     return create_error_token(StatusInvalidRequest, "Unsupported request type");
             }

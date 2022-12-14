@@ -8,30 +8,40 @@ class CallBackRequest implements Serializable {
 
     public String request_id;
 
-    public String meta;
+    public String request_detail;
+
+    public String extra_info;
 
     public int getRequest_type() {
-        return this.request_type;
+        return request_type;
     }
 
-    public void setRequest_type(int requestType) {
-        this.request_type = requestType;
+    public void setRequest_type(int request_type) {
+        this.request_type = request_type;
     }
 
     public String getRequest_id() {
-        return this.request_id;
+        return request_id;
     }
 
-    public void setRequest_id(String requestID) {
-        this.request_id = requestID;
+    public void setRequest_id(String request_id) {
+        this.request_id = request_id;
     }
 
-    public String getMeta() {
-        return this.meta;
+    public String getRequest_detail() {
+        return request_detail;
     }
 
-    public void setMeta(String meta) {
-        this.meta = meta;
+    public void setRequest_detail(String request_detail) {
+        this.request_detail = request_detail;
+    }
+
+    public String getExtra_info() {
+        return extra_info;
+    }
+
+    public void setExtra_info(String extra_info) {
+        this.extra_info = extra_info;
     }
 }
 
@@ -90,18 +100,12 @@ class CallBackResponse implements Serializable {
     }
 }
 
-class KeyGenMeta implements Serializable{
-    public String cobo_id;
+class KeyGenDetail implements Serializable{
     public int threshold;
+
     public String[] node_ids;
 
-    public String getCobo_id() {
-        return cobo_id;
-    }
-
-    public void setCobo_id(String cobo_id) {
-        this.cobo_id = cobo_id;
-    }
+    public int curve;
 
     public int getThreshold() {
         return threshold;
@@ -118,6 +122,68 @@ class KeyGenMeta implements Serializable{
     public void setNode_ids(String[] node_ids) {
         this.node_ids = node_ids;
     }
+
+    public int getCurve() {
+        return curve;
+    }
+
+    public void setCurve(int curve) {
+        this.curve = curve;
+    }
+}
+
+class KeyGenExtraInfo implements Serializable{
+    public String cobo_id;
+
+    public String getCobo_id() {
+        return cobo_id;
+    }
+
+    public void setCobo_id(String cobo_id) {
+        this.cobo_id = cobo_id;
+    }
+}
+
+class KeySignDetail implements Serializable{
+    public String root_pub_key;
+
+    public String[] used_node_ids;
+
+    public String[] bip32_path_list;
+
+    public String[] msg_hash_list;
+
+    public String getRoot_pub_key() {
+        return root_pub_key;
+    }
+
+    public void setRoot_pub_key(String root_pub_key) {
+        this.root_pub_key = root_pub_key;
+    }
+
+    public String[] getUsed_node_ids() {
+        return used_node_ids;
+    }
+
+    public void setUsed_node_ids(String[] used_node_ids) {
+        this.used_node_ids = used_node_ids;
+    }
+
+    public String[] getBip32_path_list() {
+        return bip32_path_list;
+    }
+
+    public void setBip32_path_list(String[] bip32_path_list) {
+        this.bip32_path_list = bip32_path_list;
+    }
+
+    public String[] getMsg_hash_list() {
+        return msg_hash_list;
+    }
+
+    public void setMsg_hash_list(String[] msg_hash_list) {
+        this.msg_hash_list = msg_hash_list;
+    }
 }
 
 enum TransactionType
@@ -125,7 +191,7 @@ enum TransactionType
     WITHDRAW;
 }
 
-class KeySignMeta implements Serializable {
+class KeySignExtraInfo implements Serializable {
     public String cobo_id;
     public String api_request_id;
     public String transaction_type;
@@ -140,7 +206,6 @@ class KeySignMeta implements Serializable {
     public String extra_parameters; // json
     public String api_key;
     public String spender;
-    public String[] node_ids;
     public RawTx[] raw_tx; // RawTx
     public String note;
 
@@ -256,14 +321,6 @@ class KeySignMeta implements Serializable {
         this.spender = spender;
     }
 
-    public String[] getNode_ids() {
-        return node_ids;
-    }
-
-    public void setNode_ids(String[] node_ids) {
-        this.node_ids = node_ids;
-    }
-
     public RawTx[] getRaw_tx() {
         return raw_tx;
     }
@@ -346,13 +403,11 @@ class ExtraParameters implements Serializable {
 
 class RawTx implements Serializable {
     public String raw_tx;
-    public String derivation_path;
 
     public RawTx() {}
 
-    public RawTx(String raw_tx, String derivation_path) {
+    public RawTx(String raw_tx) {
         this.raw_tx = raw_tx;
-        this.derivation_path = derivation_path;
     }
 
     public String getRaw_tx() {
@@ -362,29 +417,43 @@ class RawTx implements Serializable {
     public void setRaw_tx(String raw_tx) {
         this.raw_tx = raw_tx;
     }
-
-    public String getDerivation_path() {
-        return derivation_path;
-    }
-
-    public void setDerivation_path(String derivation_path) {
-        this.derivation_path = derivation_path;
-    }
 }
 
-class KeyReshareMeta implements Serializable{
-    public String cobo_id;
+class KeyReshareDetail implements Serializable{
+    public String root_pub_key;
+
+    public int curve;
+
+    public String[] used_node_ids;
+
     public int old_threshold;
-    public String[] old_node_ids;
+
     public int new_threshold;
+
     public String[] new_node_ids;
 
-    public String getCobo_id() {
-        return cobo_id;
+    public String getRoot_pub_key() {
+        return root_pub_key;
     }
 
-    public void setCobo_id(String cobo_id) {
-        this.cobo_id = cobo_id;
+    public void setRoot_pub_key(String root_pub_key) {
+        this.root_pub_key = root_pub_key;
+    }
+
+    public int getCurve() {
+        return curve;
+    }
+
+    public void setCurve(int curve) {
+        this.curve = curve;
+    }
+
+    public String[] getUsed_node_ids() {
+        return used_node_ids;
+    }
+
+    public void setUsed_node_ids(String[] used_node_ids) {
+        this.used_node_ids = used_node_ids;
     }
 
     public int getOld_threshold() {
@@ -393,14 +462,6 @@ class KeyReshareMeta implements Serializable{
 
     public void setOld_threshold(int old_threshold) {
         this.old_threshold = old_threshold;
-    }
-
-    public String[] getOld_node_ids() {
-        return old_node_ids;
-    }
-
-    public void setOld_node_ids(String[] old_node_ids) {
-        this.old_node_ids = old_node_ids;
     }
 
     public int getNew_threshold() {
@@ -417,5 +478,17 @@ class KeyReshareMeta implements Serializable{
 
     public void setNew_node_ids(String[] new_node_ids) {
         this.new_node_ids = new_node_ids;
+    }
+}
+
+class KeyReshareExtraInfo implements Serializable{
+    public String cobo_id;
+
+    public String getCobo_id() {
+        return cobo_id;
+    }
+
+    public void setCobo_id(String cobo_id) {
+        this.cobo_id = cobo_id;
     }
 }
