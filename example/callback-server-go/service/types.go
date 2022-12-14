@@ -24,13 +24,33 @@ type PackageDataClaim struct {
 
 // =================== TSS related ===================.
 
-type KeyGenMeta struct {
-	CoboID    string   `json:"cobo_id"`
-	Threshold int      `json:"threshold"`
-	NodeIDs   []string `json:"node_ids"`
+type KeyGenDetail struct {
+	Threshold int      `json:"threshold,omitempty"`
+	Curve     int      `json:"curve,omitempty"`
+	NodeIDs   []string `json:"node_ids,omitempty"`
 }
 
-type KeySignMeta struct {
+type KeySignDetail struct {
+	RootPubKey    string   `json:"root_pub_key,omitempty"`
+	UsedNodeIDs   []string `json:"used_node_ids,omitempty"`
+	Bip32PathList []string `json:"bip32_path_list,omitempty"`
+	MsgHashList   []string `json:"msg_hash_list,omitempty"`
+}
+
+type KeyReshareDetail struct {
+	RootPubKey   string   `json:"root_pub_key,omitempty"`
+	Curve        int      `json:"curve,omitempty"`
+	UsedNodeIDs  []string `json:"used_node_ids,omitempty"`
+	OldThreshold int      `json:"old_threshold,omitempty"`
+	NewThreshold int      `json:"new_threshold,omitempty"`
+	NewNodeIDs   []string `json:"new_node_ids,omitempty"`
+}
+
+type KeyGenExtraInfo struct {
+	CoboID string `json:"cobo_id"`
+}
+
+type KeySignExtraInfo struct {
 	CoboID           string         `json:"cobo_id"`
 	ApiRequestID     string         `json:"api_request_id"`
 	TransactionType  string         `json:"transaction_type"` // TransactionTypeEnum
@@ -45,7 +65,6 @@ type KeySignMeta struct {
 	ExtraParameters  string         `json:"extra_parameters"` // json
 	ApiKey           string         `json:"api_key"`
 	Spender          string         `json:"spender"`
-	NodeIds          []string       `json:"node_ids"`
 	RawTx            []KeySignRawTx `json:"raw_tx"`
 	Note             string         `json:"note"`
 }
@@ -66,22 +85,18 @@ type Input struct {
 }
 
 type KeySignRawTx struct {
-	RawTx          string `json:"raw_tx"`
-	DerivationPath string `json:"derivation_path"`
+	RawTx string `json:"raw_tx"`
 }
 
-type KeyReshareMeta struct {
-	CoboID       string   `json:"cobo_id"`
-	OldThreshold int      `json:"old_threshold"`
-	OldNodeIds   []string `json:"old_node_ids"`
-	NewThreshold int      `json:"new_threshold"`
-	NewNodeIds   []string `json:"new_node_ids"`
+type KeyReshareExtraInfo struct {
+	CoboID string `json:"cobo_id"`
 }
 
 type CallBackRequest struct {
-	RequestID   string `json:"request_id,omitempty"`
-	RequestType int    `json:"request_type,omitempty"`
-	Meta        string `json:"meta,omitempty"`
+	RequestID     string `json:"request_id,omitempty"`
+	RequestType   int    `json:"request_type,omitempty"`
+	RequestDetail string `json:"request_detail,omitempty"`
+	ExtraInfo     string `json:"extra_info,omitempty"`
 }
 
 type CallBackResponse struct {
