@@ -36,16 +36,13 @@ class PackageDataClaim:
         self.nbf = nbf
         self.sub = sub
 
-class Meta:
-    def __init__(self, cobo_id: str = None):
-        self.cobo_id = cobo_id
-
 
 class CallBackRequest:
-    def __init__(self, request_type: int, request_id: str, meta: str):
+    def __init__(self, request_type: int, request_id: str, request_detail: str, extra_info: str):
         self.request_type = request_type
         self.request_id = request_id
-        self.meta = meta
+        self.request_detail = request_detail
+        self.extra_info = extra_info
 
 
 class CallBackResponse:
@@ -108,11 +105,11 @@ class CallBackService(object):
 
             cb_req = marshal.unmarshal(CallBackRequest, json.loads(message))
             if cb_req.request_type == 1:
-                self.process_keygen_request(cb_req.request_id, cb_req.meta, resp)
+                self.process_keygen_request(cb_req.request_id, cb_req.request_detail, cb_req.extra_info, resp)
             elif cb_req.request_type == 2:
-                self.process_keysign_request(cb_req.request_id, cb_req.meta, resp)
+                self.process_keysign_request(cb_req.request_id, cb_req.request_detail, cb_req.extra_info, resp)
             elif cb_req.request_type == 3:
-                self.process_keyreshare_request(cb_req.request_id, cb_req.meta, resp)
+                self.process_keyreshare_request(cb_req.request_id, cb_req.request_detail, cb_req.extra_info, resp)
             else:
                 self.send_response(resp, CallBackResponse(status=StatusInvalidRequest, error="Invalid request data type"))
             return
@@ -120,8 +117,9 @@ class CallBackService(object):
             self.send_response(resp, CallBackResponse(status=StatusInvalidRequest, error="Auth token required"))
             return
 
-    def process_keygen_request(self, request_id: str, meta: str, resp):
-        # key_gen_meta = marshal.unmarshal(Meta, json.loads(meta))
+    def process_keygen_request(self, request_id: str, request_detail: str, extra_info: str, resp):
+        # key_gen_detail = marshal.unmarshal(KeyGenDetail, json.loads(request_detail))
+        # raw_extra_info = marshal.unmarshal(KeyGenExtraInfo, json.loads(extra_info))
 
         # risk control logical
 
@@ -129,8 +127,9 @@ class CallBackService(object):
                                                   action="APPROVE"))
         return
 
-    def process_keysign_request(self, request_id: str, meta: str, resp):
-        # key_sign_meta = marshal.unmarshal(Meta, json.loads(meta))
+    def process_keysign_request(self, request_id: str, request_detail: str, extra_info: str, resp):
+        # key_sign_detail = marshal.unmarshal(KeySignDetail, json.loads(request_detail))
+        # raw_extra_info = marshal.unmarshal(KeySignExtraInfo, json.loads(extra_info))
 
         # risk control logical
 
@@ -138,8 +137,9 @@ class CallBackService(object):
                                                   action="APPROVE"))
         return
 
-    def process_keyreshare_request(self, request_id: str, meta: str, resp):
-        # key_reshare_meta = marshal.unmarshal(Meta, json.loads(meta))
+    def process_keyreshare_request(self, request_id: str, request_detail: str, extra_info: str, resp):
+        # key_reshare_detail = marshal.unmarshal(KeyReshareDetail, json.loads(request_detail))
+        # raw_extra_info = marshal.unmarshal(KeyReshareExtraInfo, json.loads(extra_info))
 
         # risk control logical
 
