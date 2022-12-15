@@ -204,6 +204,7 @@ class KeySignExtraInfo implements Serializable {
     public long gas_price;
     public long gas_limit;
     public String extra_parameters; // json
+    public String replace_cobo_id;
     public String api_key;
     public String spender;
     public RawTx[] raw_tx; // RawTx
@@ -303,6 +304,14 @@ class KeySignExtraInfo implements Serializable {
 
     public void setExtra_parameters(String extra_parameters) {
         this.extra_parameters = extra_parameters;
+    }
+
+    public String getReplace_cobo_id() {
+        return replace_cobo_id;
+    }
+
+    public void setReplace_cobo_id(String replace_cobo_id) {
+        this.replace_cobo_id = replace_cobo_id;
     }
 
     public String getApi_key() {

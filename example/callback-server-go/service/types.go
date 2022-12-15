@@ -63,6 +63,7 @@ type KeySignExtraInfo struct {
 	GasPrice         int            `json:"gas_price"`
 	GasLimit         int            `json:"gas_limit"`
 	ExtraParameters  string         `json:"extra_parameters"` // json
+	ReplaceCoboID    string         `json:"replace_cobo_id"`
 	ApiKey           string         `json:"api_key"`
 	Spender          string         `json:"spender"`
 	RawTx            []KeySignRawTx `json:"raw_tx"`
