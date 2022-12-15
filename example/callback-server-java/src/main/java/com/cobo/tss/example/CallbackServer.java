@@ -274,6 +274,7 @@ public class CallbackServer {
         try{
             byte[] payload = Base64.getDecoder().decode(package_data.getBytes());
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             CallBackRequest req = objectMapper.readValue(payload, CallBackRequest.class);
 
             // first check if the request has already been deal with

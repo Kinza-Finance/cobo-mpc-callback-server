@@ -21,7 +21,7 @@ StatusOK = 0
 StatusInvalidRequest = 10
 StatusInvalidToken = 20
 StatusInternalError = 30
-marshal = Marshal()
+marshal = Marshal(ignore_unknown_fields=True)
 
 
 class PackageDataClaim:
