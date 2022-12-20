@@ -390,23 +390,23 @@ class Input implements Serializable {
 }
 
 class ExtraParameters implements Serializable {
-    public Input[] inputsToSpend;
-    public Input[] inputsToExclude;
+    public Input[] inputs_to_spend;
+    public Input[] inputs_to_exclude;
 
-    public Input[] getInputsToSpend() {
-        return inputsToSpend;
+    public Input[] getInputs_to_spend() {
+        return inputs_to_spend;
     }
 
-    public void setInputsToSpend(Input[] inputsToSpend) {
-        this.inputsToSpend = inputsToSpend;
+    public void setInputs_to_spend(Input[] inputs_to_spend) {
+        this.inputs_to_spend = inputs_to_spend;
     }
 
-    public Input[] getInputsToExclude() {
-        return inputsToExclude;
+    public Input[] getInputs_to_exclude() {
+        return inputs_to_exclude;
     }
 
-    public void setInputsToExclude(Input[] inputsToExclude) {
-        this.inputsToExclude = inputsToExclude;
+    public void setInputs_to_exclude(Input[] inputs_to_exclude) {
+        this.inputs_to_exclude = inputs_to_exclude;
     }
 }
 

@@ -76,8 +76,8 @@ type KeySignToAddressDetail struct {
 }
 
 type KeySignExtraParameters struct {
-	InputsToSpend   []Input `json:"inputsToSpend"`
-	InputsToExclude []Input `json:"inputsToExclude"`
+	InputsToSpend   []Input `json:"inputs_to_spend"`
+	InputsToExclude []Input `json:"inputs_to_exclude"`
 }
 
 type Input struct {
