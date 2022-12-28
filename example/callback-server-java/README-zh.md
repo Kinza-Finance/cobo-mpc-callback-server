@@ -42,7 +42,7 @@ callback-server-java
 │      ├── java
 │      │   └── com/cobo/tss/example
 │      │        ├── CallbackServer.java  // Callback Server主程序
-│      │        ├── Types.java           // jwt 相关类型定义
+│      │        ├── Types.java           // 风控参数相关类型定义
 │      │        └── WhiteListRule.java   // 白名单风控相关代码
 │      └── resources
 │          ├── cobo-tss-node-risk-control-pub.key   // TSS Node 端提供的 RSA 公钥
@@ -51,7 +51,7 @@ callback-server-java
 ```
 
 ## 样例运行
-<B>强烈建议您使用支持JAVA的IDEA来完成以下操作</B>，在IDEA中进行代码编译与服务运行的一体化操作。如果没有安装IDEA或者不愿意使用IDEA，则也可以通过下面的命令行来完成操作。
+<B>强烈建议您使用支持JAVA的IDE来完成以下操作</B>，在IDE中进行代码编译与服务运行的一体化操作。如果没有安装IDE或者不愿意使用IDE，则也可以通过下面的命令行来完成操作。
 ### 代码编译
 ```markdown
 mvn compile clean
