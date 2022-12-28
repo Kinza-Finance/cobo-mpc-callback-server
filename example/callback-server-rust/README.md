@@ -1,48 +1,48 @@
 # callback-server-rust
 
-## 环境配置
-Rust由工具rustup安装和管理。rustup用于管理不同平台下的Rust构建版本并使其互相兼容，支持安装由Beta和Nightly频道发布的版本，并支持其他用于交叉编译的编译版本。
+## Development Environment  
+Rustup is an installer for the systems programming language Rust. Rust supports a number of platforms and there are many builds of Rust available at any time. Rustup manages these builds in a consistent way on each platform that Rust supports. The beta and nightly channels are supported by Rust. 
 
-如果您曾经安装过rustup，可以执行rustup update来升级Rust。如果没有，则可以按照以下方式安装：
+If clients has already downloaded and installed Rustup, please execute 'rustup update' to upgrade it to the latest version. Otherwise, please refer to the following guides. 
 
-如果您的系统是macOs、Linux或其它类Unix系统，可以使用以下命令安装Rustup和Rust。
+For macOS, Linux or UNIX-like operating systems, clients can use the following commands to download Rustup and install Rust.
 ~~~
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ~~~
 
-如果您的系统是Windows，则可以参考以下[文档](https://learn.microsoft.com/zh-cn/windows/dev-environment/rust/setup)进行安装。
+For the Windows operating system, clients can refer to [Rust for Windows] (https://learn.microsoft.com/en-us/windows/dev-environment/rust/rust-for-windows). 
 
-## 代码组成说明
+## Components
 ```markdown
 callback-server-rust
-├── pom.xml // maven工程配置文件
+├── pom.xml // Configuration details used by Maven to build the project
 ├── src
-│   ├── main.rs                                  // 主入口程序
-│   ├── cobo-tss-node-risk-control-pub.key       // TSS Node 端提供的 RSA 公钥
-│   └── callback-server-pri.pem                  // Callback Server 端生成的 RSA 私钥
-├── Cargo.lock                                   // 配置依赖库的源和版本信息
-├── Cargo.toml                                   // 配置依赖库
+│   ├── main.rs                                  // Root of the binary
+│   ├── cobo-tss-node-risk-control-pub.key       // TSS Node's RSA public key
+│   └── callback-server-pri.pem                  // Callback server's RSA private key
+├── Cargo.lock                                   // Exact information related to dependencies
+├── Cargo.toml                                   // Description of dependencies 
 └── README.md
 ```
 
-## 样例运行
-### 编译代码
+## Run Codes
+### Compile Codes
 > **Note**
 > 
-> Cargo是Rust的构建系统和包管理器。大多数Rust开发人员使用Cargo来管理他们的Rust项目，因为它可以为你处理很多任务，比如构建代码、下载依赖库并编译这些库。（我们把代码所需要的库叫做依赖（dependencies））。
+> Cargo is Rust's build system and package manager. Most Rust developers use Cargo to manage their Rust projects as Cargo can handle a number of tasks, such as building codes, downloading the libraries these codes depends on, and building those libraries. Please note that these libraries are referred to as dependencies.
 > 
-> 我们在环境配置环节，其实就已经默认安装了Cargo工具链，不再需要额外安装
+> The Cargo toolchain will be installed by default when clients configure the development environment.
 ```markdown
 cargo build
 ```
 
-### 服务配置
-在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
+### Configure Server  
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [TSS Node User Guide] (https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit).
 
-### 服务运行
-完成服务配置之后，我们就可以启动CallBack服务了。
+### Start Service
+Once the callback server has been successfully configured, clients can proceed to start the callback service.
 ```markdown
 cargo run 
 ```
-之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.3shma34oqi61)。
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [TSS Node User Guide] (https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit).
 
