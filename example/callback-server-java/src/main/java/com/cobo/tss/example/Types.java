@@ -188,14 +188,32 @@ class KeySignDetail implements Serializable{
 
 enum TransactionType
 {
-    WITHDRAW;
+    TRANSACTION_FROM_WEB, // 100
+    TRANSACTION_FROM_API, // 102
+    TRANSACTION_RBF_API_SPEEDUP, // 103
+    TRANSACTION_RBF_WEB_SPEEDUP, // 104
+    TRANSACTION_RBF_API_DROP, // 105
+    TRANSACTION_RBF_WEB_DROP, // 106
+
+}
+
+enum TransactionOperation
+{
+    TRANSFER, // 100
+    CONTRACT_CALL, // 200
 }
 
 class KeySignExtraInfo implements Serializable {
     public String cobo_id;
     public String api_request_id;
-    public String transaction_type;
+    public int transaction_type; // TransactionTypeEnum
+
+    public int operation; // TransactionOperationEnum
+
     public String coin;
+
+    public int decimal;
+
     public String from_address;
     public String amount ;
     public String to_address;
@@ -226,12 +244,20 @@ class KeySignExtraInfo implements Serializable {
         this.api_request_id = api_request_id;
     }
 
-    public String getTransaction_type() {
+    public int getTransaction_type() {
         return transaction_type;
     }
 
-    public void setTransaction_type(String transaction_type) {
+    public void setTransaction_type(int transaction_type) {
         this.transaction_type = transaction_type;
+    }
+
+    public int getOperation() {
+        return operation;
+    }
+
+    public void setOperation(int operation) {
+        this.operation = operation;
     }
 
     public String getCoin() {
@@ -240,6 +266,14 @@ class KeySignExtraInfo implements Serializable {
 
     public void setCoin(String coin) {
         this.coin = coin;
+    }
+
+    public int getDecimal() {
+        return decimal;
+    }
+
+    public void setDecimal(int decimal) {
+        this.decimal = decimal;
     }
 
     public String getFrom_address() {
