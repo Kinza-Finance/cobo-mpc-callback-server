@@ -5,7 +5,7 @@ Rust由工具rustup安装和管理。rustup用于管理不同平台下的Rust构
 
 如果您曾经安装过rustup，可以执行rustup update来升级Rust。如果没有，则可以按照以下方式安装：
 
-如果您的系统是amcOs、Linux或其它类Unix系统，可以使用以下命令安装Rustup和Rust。
+如果您的系统是macOs、Linux或其它类Unix系统，可以使用以下命令安装Rustup和Rust。
 ~~~
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ~~~

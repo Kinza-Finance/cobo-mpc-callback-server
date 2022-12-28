@@ -13,8 +13,24 @@ const (
 	TypeKeyGen     = 1
 	TypeKeySign    = 2
 	TypeKeyReshare = 3
+)
 
-	TransactionTypeWidthDraw = "WITHDRAW"
+type TransactionType int
+
+const (
+	TRANSACTION_FROM_WEB        TransactionType = 100
+	TRANSACTION_FROM_API        TransactionType = 102
+	TRANSACTION_RBF_API_SPEEDUP TransactionType = 103
+	TRANSACTION_RBF_WEB_SPEEDUP TransactionType = 104
+	TRANSACTION_RBF_API_DROP    TransactionType = 105
+	TRANSACTION_RBF_WEB_DROP    TransactionType = 106
+)
+
+type TransactionOperation int
+
+const (
+	TRANSFER      TransactionOperation = 100
+	CONTRACT_CALL TransactionOperation = 200
 )
 
 type PackageDataClaim struct {
@@ -53,8 +69,10 @@ type KeyGenExtraInfo struct {
 type KeySignExtraInfo struct {
 	CoboID           string         `json:"cobo_id"`
 	ApiRequestID     string         `json:"api_request_id"`
-	TransactionType  string         `json:"transaction_type"` // TransactionTypeEnum
+	TransactionType  int            `json:"transaction_type"` // TransactionTypeEnum
+	Operation        int            `json:"operation"`        // TransactionOperationEnum
 	Coin             string         `json:"coin"`
+	Decimal          int            `json:"decimal"`
 	FromAddress      string         `json:"from_address"`
 	Amount           string         `json:"amount"`
 	ToAddress        string         `json:"to_address"`
