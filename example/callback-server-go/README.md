@@ -1,103 +1,102 @@
 # callback-server-go
 
-## 环境配置
+## Development Environment
 
-Go有多种安装方式，以下是三种最常见的安装方式，您可以选择自己喜欢的方式安装：
+The most common installation methods of the Go programming language are listed below. Clients should choose a method that fits its business and security requirements. 
 
-* Go标准包安装：Go提供了方便的安装包，支持Windows、Linux、Mac等系统。这种方式适合快速安装，可根据自己的系统位数下载好相应的安装包，一路 next 就可以轻松安装了。推荐这种方式 
-* 第三方工具安装：目前有很多方便的第三方软件包工具，例如 Ubuntu 的 apt-get 和 wget，Mac 的 homebrew 等。这种安装方式适合那些熟悉相应系统的用户。
-* Go源码安装：这是一种标准的软件安装方式。对于经常使用Unix类系统的用户，尤其对于开发者来说，从源码安装可以自己定制。
+* Standard installation package: The installation package provided by Go supports Windows, Linux, Max and other operating systems. Clients are recommended to use this method for quick and easy installation of Go. 
+* Third-party software: Clients can handle the installation of Go using a package manager or an installer such as Homebrew (macOS), GNU Wget (Ubuntu), and apt-get (Ubuntu). This method is suitable for clients who are already familiar with the client-side operating system.
+* Go source code installation: Clients can build and run Go from the source code (e.g. compile the source code, copy the binaries, customize environment variables). This method is suitable for clients who are already familiar with Unix-like operating systems. 
 
-最后，如果您想在同一个系统中安装多个版本的Go，您可以参考第三方工具[GVM](https://github.com/moovweb/gvm)，这是目前在这方面做的最好的工具，除非您知道怎么处理。
+To install multiple versions of Go within the same operating system, Clients can refer to [[Go Version Manager](https://github.com/moovweb/gvm)] . GVM is an open source tool for managing Go environments. 
 
-无论使用那种方式安装，都强烈建议您在环境变量中设置如下信息：
+Do note that the following global variables should be configured first in regardless of the installation method.  
 ```markdown
 export GOROOT=go_install_path  
-export GOPATH=$HOME/gopath (可选配置)
+export GOPATH=$HOME/gopath (optional)
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ```
-上面这些命令对于Mac和Unix用户来说最好是写入.bashrc或者.zshrc文件，对于windows用户来说当然是写入环境变量。
-
-## 代码组成说明
+For clients with maxOS or Unix-like operating systems, the above global variables should be included in a .bashrc or .zshrc file. For clients with the Windows operating system, these variables should be written into environment variables.
+## Components
 ```markdown
 callback-server-go
-├── service                              // Callback Server程序
-├── cobo-tss-node-risk-control-pub.key   // TSS Node 端提供的 RSA 公钥
-├── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
-├── main.go                              // 主入口程序
+├── service                              // Callback server program  
+├── cobo-tss-node-risk-control-pub.key   // TSS Node's RSA public key  
+├── callback-server-pri.pem              // Callback server's RSA private key  
+├── main.go                              // Entry point of an executable program
 └── README.md
 ```
 
-## 样例运行
-### 代码编译
+## Run Codes
+### Compile Codes
 ```markdown
 go build
 ```
-代码编译之后，默认会在当前目录生成一个`callback-server-go`的可执行文件。
+After the codes are successfully compiled, a `callback-server-go` executable file will be generated in the current directory by default. 
 
-### 服务配置
-在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
+### Configure server  
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
-### 服务运行
-完成服务配置之后，我们就可以启动CallBack服务了。
+### Start  service
+Once the callback server has been successfully configured, clients can proceed to start the callback service.
 ```markdown
 ./callback-server-go
 ```
-之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.3shma34oqi61)。
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
-### 白名单操作
-在我们提供的golang语言版本的样例中，我们还实现了一个简单的白名单风控功能，对KeySign的目标接收地址进行风控，以下是其简单的使用说明。
-> **Warning**
+### Configure whitelist  
+We've provided Go code samples to help clients configure a whitelist for risk control purposes. Only addresses added to the whitelist will be called upon during key signing (i.e. KeySign). Please refer to the steps below for more information.
+> **Important**
 > 
-> 本代码只是样例代码，仅供参考学习用。如果要在生产环境中使用配置输入，您需要做好接口的访问鉴权工作。
+> All code samples are for reference only and should not be used directly in any production environment. Please ensure that all best practices are in place for API authentication. 
 > 
-#### 添加白名单
-请求示例：
+#### Add to whitelist
+Request:
 ```markdown
 curl --location --request POST '127.0.0.1:11020/add_rcv_address' \
 --header 'Content-Type: application/json' \
 --data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540c"}'
 ```
-响应示例：
+Response:
 ```json
 {
     "status": 200
 }
 ```
-白名单对地址格式也有一个简单的要求：只能添加以太坊或者比特币格式的地址，如果地址格式不对，将会返回错误。
-请求示例：
+Please note that only ETH and BTC addresses can be added to the whitelist. Otherwise, an error will be returned.
+Request:
 ```markdown
 curl --location --request POST '127.0.0.1:11020/add_rcv_address' \
 --header 'Content-Type: application/json' \
 --data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540cxyz"}'
 ```
-响应示例：
+Response:
 ```json
 {
     "status": 400,
     "error": "Receiver address is not valid btc or eth address"
 }
 ```
-#### 移出白名单
-请求示例：
+#### Remove from whitelist
+Request:
 ```markdown
 curl --location --request POST '127.0.0.1:11020/rm_rcv_address' \
 --header 'Content-Type: application/json' \
 --data-raw '{"address": "coboWqM1vC676RsVkuoyPL1YReGd8sUXxbeypKCiirien9wdQ"}'
 ```
-响应示例：
+Response:
 ```json
 {
     "status": 200
 }
 ```
-#### 查询白名单
-请求示例：
+#### Query whitelist
+Request:
 ```markdown
 curl --location --request GET '127.0.0.1:11020/list_rcv_address' \
 --header 'Content-Type: application/json'
 ```
-响应示例：
+Response:
 ```json
 {
     "address_list": [

@@ -1,17 +1,18 @@
 # callback-server-java
 
-## 环境配置
-### 安装Java SDK
-因为Java程序必须运行在JVM之上，所以，我们第一件事情就是安装JDK。
-网络上已经有很多Java SDK的安装教程，这里就不再赘述。值得提醒的一点就是，一定记得配置以下几个全局变量：
+## Development Environment  
+### Install Java SDK
+The JVM is a virtual machine that runs Java class files in a portable way. Clients need to install JVM first.
+
+Do note that the following global variables should be configured first.
 ```markdown
 JAVA_HOME=xxx
 JRE_HOME=$JAVA_HOME/jre
 PATH=$PATH:$JAVA_HOME/bin
 ```
-### 安装Maven
-#### 简介
-它是一个使用Maven管理的普通的Java项目，它的目录结构默认如下：
+### Install Maven
+#### Introduction 
+Maven is a build automation tool used primarily for Java projects. Its default directory is as shown below:  
 ```markdown
 a-maven-project
 ├── pom.xml
@@ -24,109 +25,124 @@ a-maven-project
 │       └── resources
 └── target
 ```
-项目的根目录a-maven-project是项目名，它有一个项目描述文件pom.xml，存放Java源码的目录是src/main/java，存放资源文件的目录是src/main/resources，存放测试源码的目录是src/test/java，存放测试资源的目录是src/test/resources，最后，所有编译、打包生成的文件都放在target目录里。这些就是一个Maven项目的标准目录结构。
-所有的目录结构都是约定好的标准结构，千万不要随意修改目录结构。使用标准结构不需要做任何配置，Maven就可以正常使用。
-#### 安装
-网络上也有大量的Maven安装教程，这里也不再赘述。值得提醒的一点就是，一定记得配置以下几个全局变量：
+The project name, a-maven-project, is displayed in the root directory. 
+
+Pom.xml is an XML file that contains information about the project and configuration details used by Maven to build the project. 
+
+The src/main/java directory contains Java class files of a Maven project.
+
+The src/test/resources directory is where Java libraries store their configuration files.
+
+The src/test/java directory is where test use case codes are stored.
+
+The src/test/resources directory is where test resources are stored.
+
+The target directory contains all compiled and packaged files. 
+
+Please note that clients should not modify or configure the standard directory structure. Otherwise, Maven may fail to run properly. 
+
+#### Install Maven 
+Do note that the following global variables should be configured first.
 ```markdown
 export MAVEN_HOME=xxx
 export PATH=$PATH:$MAVEN_HOME/bin
 ```
 
-## 代码组成说明
+## Components 
 ```markdown
 callback-server-java
-├── pom.xml // maven工程配置文件
+├── pom.xml // Configuration details used by Maven to build the project
 ├── src
 │   └── main
 │      ├── java
 │      │   └── com/cobo/tss/example
-│      │        ├── CallbackServer.java  // Callback Server主程序
-│      │        ├── Types.java           // jwt 相关类型定义
-│      │        └── WhiteListRule.java   // 白名单风控相关代码
+│      │        ├── CallbackServer.java  // Callback server's main program
+│      │        ├── Types.java           // Risk control-related structs 
+│      │        └── WhiteListRule.java   // Risk control whitelist  
 │      └── resources
-│          ├── cobo-tss-node-risk-control-pub.key   // TSS Node 端提供的 RSA 公钥
-│          └── callback-server-pri.pem              // Callback Server 端生成的 RSA 私钥
+│          ├── cobo-tss-node-risk-control-pub.key   // TSS Node‘s RSA public key  
+│          └── callback-server-pri.pem              // Callback server's RSA private key  
 └── README.md
 ```
 
-## 样例运行
-<B>强烈建议您使用支持JAVA的IDEA来完成以下操作</B>，在IDEA中进行代码编译与服务运行的一体化操作。如果没有安装IDEA或者不愿意使用IDEA，则也可以通过下面的命令行来完成操作。
-### 代码编译
+## Run Codes
+<B>Clients are recommended to use an integrated development environment that supports the Java language to complete the following steps (e.g. compile codes, run service)</B>. If no integrated development environment has been installed, clients may also use the following commands. 
+
+### Compile Codes
 ```markdown
 mvn compile clean
 mvn compile
 ```
-代码编译之后，默认会在当前目录生成一个`target`文件夹，里面有编译好了的Class文件。
+After the codes are successfully compiled, a `target` folder will be generated in the current directory by default. The folder contains all complied Java class files.
 
-### 服务配置
-在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
+### Configure server  
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
-<B>说明</B>
+<B>Note</B>
 
-因为Maven工程有自己严格的目录使用要求，因此，在对Java版本的服务进行配置时，所有相关的通信RSA公私钥都需要放到以下目录：`src/main/resources`。
-### 服务运行
-完成服务配置之后，我们就可以启动CallBack服务了。
+Maven has a standard directory structure. During configuration, clients will need to place the RSA public key and the RSA private key into the following directory: `src/main/resources`.
+### Start  service
+Once the callback server has been successfully configured, clients can proceed to start the callback service.
 ```markdown
 mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath com.cobo.tss.example.CallbackServer"
 ```
-之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.3shma34oqi61)。
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
-### 白名单操作
-在我们提供的Java语言版本的样例中，我们也实现了一个简单的白名单风控功能，对KeySign的目标接收地址进行风控，以下是其简单的使用说明。
-> **Warning**
+### Configure whitelist  
+We've provided Java code samples to help clients configure a whitelist for risk control purposes. Only addresses added to the whitelist will be called upon during key signing (i.e. KeySign). Please refer to the steps below for more information.
+> **Important**
 >
-> 本代码只是样例代码，仅供参考学习用。如果要在生产环境中使用配置输入，您需要做好接口的访问鉴权工作。
+> All code samples are for reference only and should not be used directly in any production environment. Please ensure that all best practices are in place for API authentication. 
 >
-#### 添加白名单
-请求示例：
+#### Add to whitelist
+Request
 ```markdown
 curl --location --request POST '127.0.0.1:11020/add_rcv_address' \
 --header 'Content-Type: application/json' \
 --data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540c"}'
 ```
-响应示例：
+Response:
 ```json
 {
   "status": 200,
   "error": ""
 }
 ```
-白名单对地址格式也有一个简单的要求：只能添加以太坊或者比特币格式的地址，如果地址格式不对，将会返回错误。
-请求示例：
+Please note that only ETH and BTC addresses can be added to the whitelist. Otherwise, an error will be returned.
+Request:
 ```markdown
 curl --location --request POST '127.0.0.1:11020/add_rcv_address' \
 --header 'Content-Type: application/json' \
 --data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540c123"}'
 ```
-响应示例：
+Response:
 ```json
 {
   "status": 400,
   "error": "Receiver address is not valid btc or eth address"
 }
 ```
-#### 移出白名单
-请求示例：
+#### Remove from whitelist
+Request:
 ```markdown
 curl --location --request POST '127.0.0.1:11020/rm_rcv_address' \
 --header 'Content-Type: application/json' \
 --data-raw '{"address": "0xEEACb7a5e53600c144C0b9839A834bb4b39E540e"}'
 ```
-响应示例：
+Response:
 ```json
 {
   "status": 200,
   "error": ""
 }
 ```
-#### 查询白名单
-请求示例：
+#### Query whitelist
+Request:
 ```markdown
 curl --location --request GET '127.0.0.1:11020/list_rcv_address' \
 --header 'Content-Type: application/json'
 ```
-响应示例：
+Response:
 ```json
 {
   "address_list": [
