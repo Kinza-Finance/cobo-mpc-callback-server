@@ -5,7 +5,7 @@
 
 ## 风控回调流程图
 
-<img src="images/risk-control-flow-chat.jpg" alt="风控回调流程图" width="50%">
+<img src="images/risk-control-flow-chart-zh.jpg" alt="风控回调流程图" width="50%">
 
 从上面的流程图我们可以知道，CallBack服务程序的主要工作包括：JWT解码、风控逻辑、JWT编码三大部分。
 

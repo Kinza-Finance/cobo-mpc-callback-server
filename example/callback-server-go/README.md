@@ -8,7 +8,7 @@ The most common installation methods of the Go programming language are listed b
 * Third-party software: Clients can handle the installation of Go using a package manager or an installer such as Homebrew (macOS), GNU Wget (Ubuntu), and apt-get (Ubuntu). This method is suitable for clients who are already familiar with the client-side operating system.
 * Go source code installation: Clients can build and run Go from the source code (e.g. compile the source code, copy the binaries, customize environment variables). This method is suitable for clients who are already familiar with Unix-like operating systems. 
 
-To install multiple versions of Go within the same operating system, Clients can refer to [Go Version Manager] (https://github.com/moovweb/gvm). GVM is an open source tool for managing Go environments. 
+To install multiple versions of Go within the same operating system, Clients can refer to [[Go Version Manager](https://github.com/moovweb/gvm)] . GVM is an open source tool for managing Go environments. 
 
 Do note that the following global variables should be configured first in regardless of the installation method.  
 ```markdown
@@ -35,14 +35,14 @@ go build
 After the codes are successfully compiled, a `callback-server-go` executable file will be generated in the current directory by default. 
 
 ### Configure server  
-Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [TSS Node User Guide] (https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit).
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
 ### Start  service
 Once the callback server has been successfully configured, clients can proceed to start the callback service.
 ```markdown
 ./callback-server-go
 ```
-Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [TSS Node User Guide] (https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit).
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
 ### Configure whitelist  
 We've provided Go code samples to help clients configure a whitelist for risk control purposes. Only addresses added to the whitelist will be called upon during key signing (i.e. KeySign). Please refer to the steps below for more information.

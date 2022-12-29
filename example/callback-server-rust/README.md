@@ -10,7 +10,7 @@ For macOS, Linux or UNIX-like operating systems, clients can use the following c
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ~~~
 
-For the Windows operating system, clients can refer to [Rust for Windows] (https://learn.microsoft.com/en-us/windows/dev-environment/rust/rust-for-windows). 
+For the Windows operating system, clients can refer to [[Rust for Windows](https://learn.microsoft.com/en-us/windows/dev-environment/rust/rust-for-windows)]. 
 
 ## Components
 ```markdown
@@ -37,12 +37,12 @@ cargo build
 ```
 
 ### Configure Server  
-Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [TSS Node User Guide] (https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit).
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
 ### Start Service
 Once the callback server has been successfully configured, clients can proceed to start the callback service.
 ```markdown
 cargo run 
 ```
-Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [TSS Node User Guide] (https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit).
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
 
