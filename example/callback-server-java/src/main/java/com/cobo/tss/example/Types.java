@@ -446,11 +446,13 @@ class ExtraParameters implements Serializable {
 
 class RawTx implements Serializable {
     public String raw_tx;
+    public String derivation_path;
 
     public RawTx() {}
 
-    public RawTx(String raw_tx) {
+    public RawTx(String raw_tx, String derivation_path) {
         this.raw_tx = raw_tx;
+        this.derivation_path = derivation_path;
     }
 
     public String getRaw_tx() {
@@ -459,6 +461,14 @@ class RawTx implements Serializable {
 
     public void setRaw_tx(String raw_tx) {
         this.raw_tx = raw_tx;
+    }
+
+    public String getDerivation_path() {
+        return derivation_path;
+    }
+
+    public void setDerivation_path(String derivation_path) {
+        this.derivation_path = derivation_path;
     }
 }
 
