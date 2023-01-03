@@ -105,6 +105,7 @@ type Input struct {
 
 type KeySignRawTx struct {
 	RawTx string `json:"raw_tx"`
+	DerivationPath string `json:"derivation_path"`
 }
 
 type KeyReshareExtraInfo struct {
