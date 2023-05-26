@@ -47,6 +47,7 @@ type KeyGenDetail struct {
 }
 
 type KeySignDetail struct {
+	GroupID       string   `json:"group_id,omitempty"`
 	RootPubKey    string   `json:"root_pub_key,omitempty"`
 	UsedNodeIDs   []string `json:"used_node_ids,omitempty"`
 	Bip32PathList []string `json:"bip32_path_list,omitempty"`
@@ -54,6 +55,7 @@ type KeySignDetail struct {
 }
 
 type KeyReshareDetail struct {
+	OldGroupID   string   `json:"old_group_id,omitempty"`
 	RootPubKey   string   `json:"root_pub_key,omitempty"`
 	Curve        int      `json:"curve,omitempty"`
 	UsedNodeIDs  []string `json:"used_node_ids,omitempty"`

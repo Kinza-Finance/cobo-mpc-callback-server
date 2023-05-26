@@ -1,5 +1,7 @@
 package com.cobo.tss.example;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.security.PublicKey;
 
@@ -100,6 +102,7 @@ class CallBackResponse implements Serializable {
     }
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class KeyGenDetail implements Serializable{
     public int threshold;
 
@@ -144,7 +147,10 @@ class KeyGenExtraInfo implements Serializable{
     }
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class KeySignDetail implements Serializable{
+    public String group_id;
+
     public String root_pub_key;
 
     public String[] used_node_ids;
@@ -152,6 +158,14 @@ class KeySignDetail implements Serializable{
     public String[] bip32_path_list;
 
     public String[] msg_hash_list;
+
+    public String getGroup_id() {
+        return group_id;
+    }
+
+    public void setGroup_id(String group_id) {
+        this.group_id = group_id;
+    }
 
     public String getRoot_pub_key() {
         return root_pub_key;
@@ -472,7 +486,10 @@ class RawTx implements Serializable {
     }
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class KeyReshareDetail implements Serializable{
+    public String old_group_id;
+
     public String root_pub_key;
 
     public int curve;
@@ -484,6 +501,14 @@ class KeyReshareDetail implements Serializable{
     public int new_threshold;
 
     public String[] new_node_ids;
+
+    public String getOld_group_id() {
+        return old_group_id;
+    }
+
+    public void setOld_group_id(String old_group_id) {
+        this.old_group_id = old_group_id;
+    }
 
     public String getRoot_pub_key() {
         return root_pub_key;
