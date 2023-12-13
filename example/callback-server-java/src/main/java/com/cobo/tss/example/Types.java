@@ -50,11 +50,10 @@ class CallBackRequest implements Serializable {
 class CallBackResponse implements Serializable {
     public static final String ActionApprove = "APPROVE";
     public static final String ActionReject = "REJECT";
-    public static final String ActionWait = "WAIT";
 
     public int status;
     public String request_id;
-    public String action; //[APPROVE, REJECT, WAIT]
+    public String action; //[APPROVE, REJECT]
     public String error;
 
     public CallBackResponse(int status, String requestID, String action, String errorInfo) {

@@ -151,8 +151,7 @@ public class CallbackServer {
             CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
             rspMemStorage.put(request_id, rsp);
 
-            // just return WAIT response, let it retry again to get the result
-            return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionWait, ""));
+            return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
             return create_error_token(StatusInternalError, e.toString());
@@ -170,7 +169,7 @@ public class CallbackServer {
 
             // risk control logical
             if (RcvWhiteListMap.get(rawExtraInfo.to_address) == null ) {
-                return createResponseToken(new CallBackResponse(StatusInvalidRequest, request_id,
+                return createResponseToken(new CallBackResponse(StatusOK, request_id,
                         CallBackResponse.ActionReject, "The target receiver address is not in whitelist"));
             }
 
@@ -178,8 +177,7 @@ public class CallbackServer {
             CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
             rspMemStorage.put(request_id, rsp);
 
-            // just return WAIT response, let it retry again to get the result
-            return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionWait, ""));
+            return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
             return create_error_token(StatusInternalError, e.toString());
@@ -201,8 +199,7 @@ public class CallbackServer {
             CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
             rspMemStorage.put(request_id, rsp);
 
-            // just return WAIT response, let it retry again to get the result
-            return createResponseToken(new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionWait, ""));
+            return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
             return create_error_token(StatusInternalError, e.toString());

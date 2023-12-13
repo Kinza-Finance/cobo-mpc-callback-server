@@ -23,7 +23,7 @@ const callback_pubkey = fs.readFileSync('./cobo-tss-node-risk-control-pub.key')
 // {
 //     status: int,
 //     request_id: str,
-//     action: str, //[APPROVE, REJECT, WAIT]
+//     action: str, //[APPROVE, REJECT]
 //     error: str,
 // }
 let send_response = (res, callBackResponse) => {

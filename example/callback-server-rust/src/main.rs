@@ -35,7 +35,7 @@ struct CallBackRequest {
 struct CallBackResponse {
     status: i32,
     request_id: String,
-    action: String,  //[APPROVE, REJECT, WAIT]
+    action: String,  //[APPROVE, REJECT]
     error: String,
 }
 

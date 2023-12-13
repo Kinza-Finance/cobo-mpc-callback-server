@@ -183,7 +183,7 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, rawRequest, ex
 		rsp := CallBackResponse{
 			Action:    "REJECT",
 			RequestID: requestID,
-			Status:    StatusInvalidRequest,
+			Status:    StatusOK,
 			ErrStr:    "The target receiver address is empty",
 		}
 		rcs.SendResponse(c, rsp)
@@ -198,7 +198,7 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, rawRequest, ex
 		rsp := CallBackResponse{
 			Action:    "REJECT",
 			RequestID: requestID,
-			Status:    StatusInvalidRequest,
+			Status:    StatusOK,
 			ErrStr:    "The target receiver address is not in whitelist",
 		}
 		rcs.SendResponse(c, rsp)

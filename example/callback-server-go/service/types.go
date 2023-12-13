@@ -106,7 +106,7 @@ type Input struct {
 }
 
 type KeySignRawTx struct {
-	RawTx string `json:"raw_tx"`
+	RawTx          string `json:"raw_tx"`
 	DerivationPath string `json:"derivation_path"`
 }
 
@@ -124,6 +124,6 @@ type CallBackRequest struct {
 type CallBackResponse struct {
 	Status    int    `json:"status,omitempty"`
 	RequestID string `json:"request_id,omitempty"`
-	Action    string `json:"action,omitempty"` //[APPROVE, REJECT, WAIT]
+	Action    string `json:"action,omitempty"` //[APPROVE, REJECT]
 	ErrStr    string `json:"error,omitempty"`
 }
