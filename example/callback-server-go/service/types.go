@@ -10,6 +10,7 @@ const (
 	StatusInvalidToken   = 20
 	StatusInternalError  = 30
 
+	TypePing       = 0
 	TypeKeyGen     = 1
 	TypeKeySign    = 2
 	TypeKeyReshare = 3

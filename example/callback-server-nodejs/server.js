@@ -10,6 +10,7 @@ const StatusInvalidRequest = 10
 const StatusInvalidToken = 20
 const StatusInternalError = 30
 
+const TypePing = 0
 const TypeKeyGen = 1
 const TypeKeySign = 2
 const TypeKeyReshare = 3
@@ -78,6 +79,12 @@ let errorHandler = (err, req, res, next) => {
 }
 app.use(errorHandler)
 
+let process_ping_request = (res) => {
+    send_response(res, {
+        status: StatusOK,
+    })
+}
+
 let process_keygen_request = (request_id, request_detail, extra_info, res) => {
     const kgDetail = JSON.parse(request_detail);
     const rawExtraInfo = JSON.parse(extra_info);
@@ -140,6 +147,9 @@ app.post('/v1/check', function (req, res) {
     const callBackRequest = JSON.parse(package_data);
 
     switch (callBackRequest['request_type']) {
+        case TypePing:
+            process_ping_request(res);
+            break;
         case TypeKeyGen:
             process_keygen_request(callBackRequest['request_id'], callBackRequest['request_detail'], callBackRequest['extra_info'], res)
             break;

@@ -10,6 +10,7 @@ const  StatusInvalidRequest: i32 = 10;
 const  StatusInvalidToken: i32 = 20;
 const  StatusInternalError: i32 = 30;
 
+const  TypePing: i32 = 0;
 const  TypeKeyGen: i32 = 1;
 const  TypeKeySign: i32 = 2;
 const  TypeKeyReshare: i32 = 3;
@@ -60,6 +61,12 @@ fn generate_response_token(res: CallBackResponse) -> String {
     let header = &Header::new(Algorithm::RS256);
 
     return encode(header, &my_claims, &key).unwrap();
+}
+
+fn process_ping_request() -> String {
+    return generate_response_token(CallBackResponse{
+        status: StatusOK
+    })
 }
 
 fn process_keygen_request(request_id: String, request_detail: String, extra_info: String) -> String {
@@ -156,6 +163,10 @@ async fn risk_control(form: web::Form<ReqInfo>) -> impl Responder {
     let raw_data = base64::decode(token_data.claims.package_data).unwrap();
     let req: CallBackRequest = serde_json::from_slice(&raw_data).unwrap();
     match req.request_type {
+        TypePing => {
+            let rst = process_ping_request();
+            return HttpResponse::Ok().body(rst)
+        },
         TypeKeyGen => {
             let rst = process_keygen_request(req.request_id, req.request_detail, req.extra_info);
             return HttpResponse::Ok().body(rst)

@@ -108,6 +108,8 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 	}
 
 	switch req.RequestType {
+	case TypePing:
+		rcs.processPingRequest(c)
 	case TypeKeyGen:
 		rcs.processKeyGenRequest(c, req.RequestDetail, req.ExtraInfo, req.RequestID)
 	case TypeKeySign:
@@ -115,6 +117,13 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 	case TypeKeyReshare:
 		rcs.processKeyReShareRequest(c, req.RequestDetail, req.ExtraInfo, req.RequestID)
 	}
+}
+
+func (rcs *CallBackService) processPingRequest(c *gin.Context) {
+	rsp := CallBackResponse{
+		Status: StatusOK,
+	}
+	rcs.SendResponse(c, rsp)
 }
 
 func (rcs *CallBackService) processKeyGenRequest(c *gin.Context, rawRequest, extraInfo, requestID string) {

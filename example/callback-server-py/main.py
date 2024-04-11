@@ -110,13 +110,19 @@ class CallBackService(object):
                 self.process_keysign_request(cb_req.request_id, cb_req.request_detail, cb_req.extra_info, resp)
             elif cb_req.request_type == 3:
                 self.process_keyreshare_request(cb_req.request_id, cb_req.request_detail, cb_req.extra_info, resp)
+            elif cb_req.request_type == 0:
+                self.process_ping_request(resp)
             else:
                 self.send_response(resp, CallBackResponse(status=StatusInvalidRequest, error="Invalid request data type"))
             return
         else:
             self.send_response(resp, CallBackResponse(status=StatusInvalidRequest, error="Auth token required"))
             return
-
+        
+    def process_ping_request(self, resp):
+        self.send_response(resp, CallBackResponse(status=StatusOK))
+        return
+    
     def process_keygen_request(self, request_id: str, request_detail: str, extra_info: str, resp):
         # key_gen_detail = marshal.unmarshal(KeyGenDetail, json.loads(request_detail))
         # raw_extra_info = marshal.unmarshal(KeyGenExtraInfo, json.loads(extra_info))
