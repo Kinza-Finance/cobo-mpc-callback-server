@@ -1,5 +1,7 @@
 package com.cobo.tss.example;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 class AddressWhitelistRequest {
     public String address;
 
@@ -39,17 +41,19 @@ class AddressWhitelistResponse {
 }
 
 class ListAddressWhitelistResponse {
-    public String[] address_list;
 
-    public ListAddressWhitelistResponse(String[] address_list) {
-        this.address_list = address_list;
+    @JsonProperty("address_list")
+    public String[] addressList;
+
+    public ListAddressWhitelistResponse(String[] addressList) {
+        this.addressList = addressList;
     }
 
-    public String[] getAddress_list() {
-        return address_list;
+    public String[] getAddressList() {
+        return addressList;
     }
 
-    public void setAddress_list(String[] address_list) {
-        this.address_list = address_list;
+    public void setAddressList(String[] addressList) {
+        this.addressList = addressList;
     }
 }

@@ -1,49 +1,54 @@
 package com.cobo.tss.example;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
-import java.security.PublicKey;
 
 class CallBackRequest implements Serializable {
-    public int request_type;
+    
+    @JsonProperty("request_type")
+    public int requestType;
 
-    public String request_id;
+    @JsonProperty("request_id")
+    public String requestID;
 
-    public String request_detail;
+    @JsonProperty("request_detail")
+    public String requestDetail;
 
-    public String extra_info;
+    @JsonProperty("extra_info")
+    public String extraInfo;
 
-    public int getRequest_type() {
-        return request_type;
+    public int getRequestType() {
+        return requestType;
     }
 
-    public void setRequest_type(int request_type) {
-        this.request_type = request_type;
+    public void setRequestType(int requestType) {
+        this.requestType = requestType;
     }
 
-    public String getRequest_id() {
-        return request_id;
+    public String getRequestID() {
+        return requestID;
     }
 
-    public void setRequest_id(String request_id) {
-        this.request_id = request_id;
+    public void setRequestID(String requestID) {
+        this.requestID = requestID;
     }
 
-    public String getRequest_detail() {
-        return request_detail;
+    public String getRequestDetail() {
+        return requestDetail;
     }
 
-    public void setRequest_detail(String request_detail) {
-        this.request_detail = request_detail;
+    public void setRequestDetail(String requestDetail) {
+        this.requestDetail = requestDetail;
     }
 
-    public String getExtra_info() {
-        return extra_info;
+    public String getExtraInfo() {
+        return extraInfo;
     }
 
-    public void setExtra_info(String extra_info) {
-        this.extra_info = extra_info;
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
     }
 }
 
@@ -52,13 +57,14 @@ class CallBackResponse implements Serializable {
     public static final String ActionReject = "REJECT";
 
     public int status;
-    public String request_id;
+    @JsonProperty("request_id")
+    public String requestID;
     public String action; //[APPROVE, REJECT]
     public String error;
 
     public CallBackResponse(int status, String requestID, String action, String errorInfo) {
         this.status = status;
-        this.request_id = requestID;
+        this.requestID = requestID;
         this.action = action;
         this.error = errorInfo;
     }
@@ -71,12 +77,12 @@ class CallBackResponse implements Serializable {
         this.status = status;
     }
 
-    public String getRequest_id() {
-        return this.request_id;
+    public String getRequestID() {
+        return this.requestID;
     }
 
-    public void setRequest_id(String requestID) {
-        this.request_id = requestID;
+    public void setRequestID(String requestID) {
+        this.requestID = requestID;
     }
 
     public String getAction() {
@@ -97,7 +103,7 @@ class CallBackResponse implements Serializable {
 
     @Override
     public String toString() {
-        return status + " - " + request_id + " - " + action + " - " + error;
+        return status + " - " + requestID + " - " + action + " - " + error;
     }
 }
 
@@ -105,7 +111,8 @@ class CallBackResponse implements Serializable {
 class KeyGenDetail implements Serializable{
     public int threshold;
 
-    public String[] node_ids;
+    @JsonProperty("node_ids")
+    public String[] nodeIDs;
 
     public int curve;
 
@@ -117,12 +124,12 @@ class KeyGenDetail implements Serializable{
         this.threshold = threshold;
     }
 
-    public String[] getNode_ids() {
-        return node_ids;
+    public String[] getNodeIDs() {
+        return nodeIDs;
     }
 
-    public void setNode_ids(String[] node_ids) {
-        this.node_ids = node_ids;
+    public void setNodeIDs(String[] nodeIDs) {
+        this.nodeIDs = nodeIDs;
     }
 
     public int getCurve() {
@@ -135,67 +142,73 @@ class KeyGenDetail implements Serializable{
 }
 
 class KeyGenExtraInfo implements Serializable{
-    public String cobo_id;
+    @JsonProperty("cobo_id")
+    public String coboID;
 
-    public String getCobo_id() {
-        return cobo_id;
+    public String getCoboID() {
+        return coboID;
     }
 
-    public void setCobo_id(String cobo_id) {
-        this.cobo_id = cobo_id;
+    public void setCoboID(String coboID) {
+        this.coboID = coboID;
     }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class KeySignDetail implements Serializable{
-    public String group_id;
+    @JsonProperty("group_id")
+    public String groupID;
 
-    public String root_pub_key;
+    @JsonProperty("root_pub_key")
+    public String rootPubKey;
 
-    public String[] used_node_ids;
+    @JsonProperty("used_node_ids")
+    public String[] usedNodeIDs;
 
-    public String[] bip32_path_list;
+    @JsonProperty("bip32_path_list")
+    public String[] bip32PathList;
 
-    public String[] msg_hash_list;
+    @JsonProperty("msg_hash_list")
+    public String[] msgHashList;
 
-    public String getGroup_id() {
-        return group_id;
+    public String getGroupID() {
+        return groupID;
     }
 
-    public void setGroup_id(String group_id) {
-        this.group_id = group_id;
+    public void setGroupID(String groupID) {
+        this.groupID = groupID;
     }
 
-    public String getRoot_pub_key() {
-        return root_pub_key;
+    public String getRootPubKey() {
+        return rootPubKey;
     }
 
-    public void setRoot_pub_key(String root_pub_key) {
-        this.root_pub_key = root_pub_key;
+    public void setRootPubKey(String rootPubKey) {
+        this.rootPubKey = rootPubKey;
     }
 
-    public String[] getUsed_node_ids() {
-        return used_node_ids;
+    public String[] getUsedNodeIDs() {
+        return usedNodeIDs;
     }
 
-    public void setUsed_node_ids(String[] used_node_ids) {
-        this.used_node_ids = used_node_ids;
+    public void setUsedNodeIDs(String[] usedNodeIDs) {
+        this.usedNodeIDs = usedNodeIDs;
     }
 
-    public String[] getBip32_path_list() {
-        return bip32_path_list;
+    public String[] getBip32PathList() {
+        return bip32PathList;
     }
 
-    public void setBip32_path_list(String[] bip32_path_list) {
-        this.bip32_path_list = bip32_path_list;
+    public void setBip32PathList(String[] bip32PathList) {
+        this.bip32PathList = bip32PathList;
     }
 
-    public String[] getMsg_hash_list() {
-        return msg_hash_list;
+    public String[] getMsgHashList() {
+        return msgHashList;
     }
 
-    public void setMsg_hash_list(String[] msg_hash_list) {
-        this.msg_hash_list = msg_hash_list;
+    public void setMsgHashList(String[] msgHashList) {
+        this.msgHashList = msgHashList;
     }
 }
 
@@ -217,9 +230,12 @@ enum TransactionOperation
 }
 
 class KeySignExtraInfo implements Serializable {
-    public String cobo_id;
-    public String api_request_id;
-    public int transaction_type; // TransactionTypeEnum
+    @JsonProperty("cobo_id")
+    public String coboID;
+    @JsonProperty("api_request_id")
+    public String apiRequestID;
+    @JsonProperty("transaction_type")
+    public int transactionType; // TransactionTypeEnum
 
     public int operation; // TransactionOperationEnum
 
@@ -227,42 +243,60 @@ class KeySignExtraInfo implements Serializable {
 
     public int decimal;
 
-    public String from_address;
+    @JsonProperty("from_address")
+    public String fromAddress;
     public String amount ;
-    public String to_address;
-    public String to_address_details; // json, ToAddressDetail[]
+
+    @JsonProperty("to_address")
+    public String toAddress;
+
+
+    @JsonProperty("to_address_details")
+    public String toAddressDetails; // json, ToAddressDetail[]
     public long fee;
-    public long gas_price;
-    public long gas_limit;
-    public String extra_parameters; // json
-    public String replace_cobo_id;
-    public String api_key;
+
+    @JsonProperty("gas_price")
+    public long gasPrice;
+
+    @JsonProperty("gas_limit")
+    public long gasLimit;
+
+    @JsonProperty("extra_parameters")
+    public String extraParameters; // json
+
+    @JsonProperty("replace_cobo_id")
+    public String replaceCoboID;
+
+    @JsonProperty("api_key")
+    public String apiKey;
     public String spender;
-    public RawTx[] raw_tx; // RawTx
+
+    @JsonProperty("raw_tx")
+    public RawTx[] rawTx; // RawTx
     public String note;
 
-    public String getCobo_id() {
-        return cobo_id;
+    public String getCoboID() {
+        return coboID;
     }
 
-    public void setCobo_id(String cobo_id) {
-        this.cobo_id = cobo_id;
+    public void setCoboID(String coboID) {
+        this.coboID = coboID;
     }
 
-    public String getApi_request_id() {
-        return api_request_id;
+    public String getApiRequestID() {
+        return apiRequestID;
     }
 
-    public void setApi_request_id(String api_request_id) {
-        this.api_request_id = api_request_id;
+    public void setApiRequestID(String apiRequestID) {
+        this.apiRequestID = apiRequestID;
     }
 
-    public int getTransaction_type() {
-        return transaction_type;
+    public int getTransactionType() {
+        return transactionType;
     }
 
-    public void setTransaction_type(int transaction_type) {
-        this.transaction_type = transaction_type;
+    public void setTransactionType(int transactionType) {
+        this.transactionType = transactionType;
     }
 
     public int getOperation() {
@@ -289,12 +323,12 @@ class KeySignExtraInfo implements Serializable {
         this.decimal = decimal;
     }
 
-    public String getFrom_address() {
-        return from_address;
+    public String getFromAddress() {
+        return fromAddress;
     }
 
-    public void setFrom_address(String from_address) {
-        this.from_address = from_address;
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
     }
 
     public String getAmount() {
@@ -305,20 +339,20 @@ class KeySignExtraInfo implements Serializable {
         this.amount = amount;
     }
 
-    public String getTo_address() {
-        return to_address;
+    public String getToAddress() {
+        return toAddress;
     }
 
-    public void setTo_address(String to_address) {
-        this.to_address = to_address;
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 
-    public String getTo_address_details() {
-        return to_address_details;
+    public String getToAddressDetails() {
+        return toAddressDetails;
     }
 
-    public void setTo_address_details(String to_address_details) {
-        this.to_address_details = to_address_details;
+    public void setToAddressDetails(String toAddressDetails) {
+        this.toAddressDetails = toAddressDetails;
     }
 
     public long getFee() {
@@ -329,44 +363,44 @@ class KeySignExtraInfo implements Serializable {
         this.fee = fee;
     }
 
-    public long getGas_price() {
-        return gas_price;
+    public long getGasPrice() {
+        return gasPrice;
     }
 
-    public void setGas_price(long gas_price) {
-        this.gas_price = gas_price;
+    public void setGasPrice(long gasPrice) {
+        this.gasPrice = gasPrice;
     }
 
-    public long getGas_limit() {
-        return gas_limit;
+    public long getGasLimit() {
+        return gasLimit;
     }
 
-    public void setGas_limit(long gas_limit) {
-        this.gas_limit = gas_limit;
+    public void setGasLimit(long gasLimit) {
+        this.gasLimit = gasLimit;
     }
 
-    public String getExtra_parameters() {
-        return extra_parameters;
+    public String getExtraParameters() {
+        return extraParameters;
     }
 
-    public void setExtra_parameters(String extra_parameters) {
-        this.extra_parameters = extra_parameters;
+    public void setExtraParameters(String extraParameters) {
+        this.extraParameters = extraParameters;
     }
 
-    public String getReplace_cobo_id() {
-        return replace_cobo_id;
+    public String getReplaceCoboID() {
+        return replaceCoboID;
     }
 
-    public void setReplace_cobo_id(String replace_cobo_id) {
-        this.replace_cobo_id = replace_cobo_id;
+    public void setReplaceCoboID(String replaceCoboID) {
+        this.replaceCoboID = replaceCoboID;
     }
 
-    public String getApi_key() {
-        return api_key;
+    public String getApiKey() {
+        return apiKey;
     }
 
-    public void setApi_key(String api_key) {
-        this.api_key = api_key;
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     public String getSpender() {
@@ -377,12 +411,12 @@ class KeySignExtraInfo implements Serializable {
         this.spender = spender;
     }
 
-    public RawTx[] getRaw_tx() {
-        return raw_tx;
+    public RawTx[] getRawTx() {
+        return rawTx;
     }
 
-    public void setRaw_tx(RawTx[] raw_tx) {
-        this.raw_tx = raw_tx;
+    public void setRawTx(RawTx[] rawTx) {
+        this.rawTx = rawTx;
     }
 
     public String getNote() {
@@ -395,15 +429,16 @@ class KeySignExtraInfo implements Serializable {
 }
 
 class ToAddressDetail implements Serializable{
-    public String to_address;
+    @JsonProperty("to_address")
+    public String toAddress;
     public String amount;
 
-    public String getTo_address() {
-        return to_address;
+    public String getToAddress() {
+        return toAddress;
     }
 
-    public void setTo_address(String to_address) {
-        this.to_address = to_address;
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 
     public String getAmount() {
@@ -416,105 +451,120 @@ class ToAddressDetail implements Serializable{
 }
 
 class Input implements Serializable {
-    public String tx_hash;
-    public int vout_n;
+    @JsonProperty("tx_hash")
+    public String txHash;
 
-    public String getTx_hash() {
-        return tx_hash;
+    @JsonProperty("vout_n")
+    public int voutN;
+
+    public String getTxHash() {
+        return txHash;
     }
 
-    public void setTx_hash(String tx_hash) {
-        this.tx_hash = tx_hash;
+    public void setTxHash(String txHash) {
+        this.txHash = txHash;
     }
 
-    public int getVout_n() {
-        return vout_n;
+    public int getVoutN() {
+        return voutN;
     }
 
-    public void setVout_n(int vout_n) {
-        this.vout_n = vout_n;
+    public void setVoutN(int voutN) {
+        this.voutN = voutN;
     }
 }
 
 class ExtraParameters implements Serializable {
-    public Input[] inputs_to_spend;
-    public Input[] inputs_to_exclude;
+    @JsonProperty("inputs_to_spend")
+    public Input[] inputsToSpend;
 
-    public Input[] getInputs_to_spend() {
-        return inputs_to_spend;
+    @JsonProperty("inputs_to_exclude")
+    public Input[] inputsToExclude;
+
+    public Input[] getInputsToSpend() {
+        return inputsToSpend;
     }
 
-    public void setInputs_to_spend(Input[] inputs_to_spend) {
-        this.inputs_to_spend = inputs_to_spend;
+    public void setInputsToSpend(Input[] inputsToSpend) {
+        this.inputsToSpend = inputsToSpend;
     }
 
-    public Input[] getInputs_to_exclude() {
-        return inputs_to_exclude;
+    public Input[] getInputsToExclude() {
+        return inputsToExclude;
     }
 
-    public void setInputs_to_exclude(Input[] inputs_to_exclude) {
-        this.inputs_to_exclude = inputs_to_exclude;
+    public void setInputsToExclude(Input[] inputsToExclude) {
+        this.inputsToExclude = inputsToExclude;
     }
 }
 
 class RawTx implements Serializable {
-    public String raw_tx;
-    public String derivation_path;
+    @JsonProperty("raw_tx")
+    public String rawTx;
+
+    @JsonProperty("derivation_path")
+    public String derivationPath;
 
     public RawTx() {}
 
-    public RawTx(String raw_tx, String derivation_path) {
-        this.raw_tx = raw_tx;
-        this.derivation_path = derivation_path;
+    public RawTx(String rawTx, String derivationPath) {
+        this.rawTx = rawTx;
+        this.derivationPath = derivationPath;
     }
 
-    public String getRaw_tx() {
-        return raw_tx;
+    public String getRawTx() {
+        return rawTx;
     }
 
-    public void setRaw_tx(String raw_tx) {
-        this.raw_tx = raw_tx;
+    public void setRawTx(String rawTx) {
+        this.rawTx = rawTx;
     }
 
-    public String getDerivation_path() {
-        return derivation_path;
+    public String getDerivationPath() {
+        return derivationPath;
     }
 
-    public void setDerivation_path(String derivation_path) {
-        this.derivation_path = derivation_path;
+    public void setDerivationPath(String derivationPath) {
+        this.derivationPath = derivationPath;
     }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class KeyReshareDetail implements Serializable{
-    public String old_group_id;
+    @JsonProperty("old_group_id")
+    public String oldGroupID;
 
-    public String root_pub_key;
+    @JsonProperty("root_pub_key")
+    public String rootPubKey;
 
     public int curve;
 
-    public String[] used_node_ids;
+    @JsonProperty("used_node_ids")
+    public String[] usedNodeIDs;
 
-    public int old_threshold;
+    @JsonProperty("old_threshold")
+    public int oldThreshold;
 
-    public int new_threshold;
+    @JsonProperty("new_threshold")
+    public int newThreshold;
 
-    public String[] new_node_ids;
+    @JsonProperty("new_node_ids")
+    public String[] newNodeIDs;
 
-    public String getOld_group_id() {
-        return old_group_id;
+    public String getOldGroupID() {
+        return oldGroupID;
     }
 
-    public void setOld_group_id(String old_group_id) {
-        this.old_group_id = old_group_id;
+    public void setOldGroupID(String oldGroupID) {
+        this.oldGroupID = oldGroupID;
     }
 
-    public String getRoot_pub_key() {
-        return root_pub_key;
+    public String getRootPubKey() {
+        return rootPubKey;
     }
 
-    public void setRoot_pub_key(String root_pub_key) {
-        this.root_pub_key = root_pub_key;
+    public void setRootPubKey(String rootPubKey) {
+        this.rootPubKey = rootPubKey;
     }
 
     public int getCurve() {
@@ -525,47 +575,49 @@ class KeyReshareDetail implements Serializable{
         this.curve = curve;
     }
 
-    public String[] getUsed_node_ids() {
-        return used_node_ids;
+    public String[] getUsedNodeIDs() {
+        return usedNodeIDs;
     }
 
-    public void setUsed_node_ids(String[] used_node_ids) {
-        this.used_node_ids = used_node_ids;
+    public void setUsedNodeIDs(String[] usedNodeIDs) {
+        this.usedNodeIDs = usedNodeIDs;
     }
 
-    public int getOld_threshold() {
-        return old_threshold;
+    public int getOldThreshold() {
+        return oldThreshold;
     }
 
-    public void setOld_threshold(int old_threshold) {
-        this.old_threshold = old_threshold;
+    public void setOldThreshold(int oldThreshold) {
+        this.oldThreshold = oldThreshold;
     }
 
-    public int getNew_threshold() {
-        return new_threshold;
+    public int getNewThreshold() {
+        return newThreshold;
     }
 
-    public void setNew_threshold(int new_threshold) {
-        this.new_threshold = new_threshold;
+    public void setNewThreshold(int newThreshold) {
+        this.newThreshold = newThreshold;
     }
 
-    public String[] getNew_node_ids() {
-        return new_node_ids;
+    public String[] getNewNodeIDs() {
+        return newNodeIDs;
     }
 
-    public void setNew_node_ids(String[] new_node_ids) {
-        this.new_node_ids = new_node_ids;
+    public void setNewNodeIDs(String[] newNodeIDs) {
+        this.newNodeIDs = newNodeIDs;
     }
 }
 
 class KeyReshareExtraInfo implements Serializable{
-    public String cobo_id;
 
-    public String getCobo_id() {
-        return cobo_id;
+    @JsonProperty("cobo_id")
+    public String coboID;
+
+    public String getCoboID() {
+        return coboID;
     }
 
-    public void setCobo_id(String cobo_id) {
-        this.cobo_id = cobo_id;
+    public void setCoboID(String coboID) {
+        this.coboID = coboID;
     }
 }

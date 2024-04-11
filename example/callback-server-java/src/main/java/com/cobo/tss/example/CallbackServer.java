@@ -136,77 +136,77 @@ public class CallbackServer {
         return builder.compact();
     }
 
-    private String process_keygen_request(String request_id, String request_detail, String extra_info) {
+    private String processKeygenRequest(String requestID, String requestDetail, String extraInfo) {
         try {
             ObjectMapper objectMapper1 = new ObjectMapper();
-            KeyGenDetail kgDetail = objectMapper1.readValue(request_detail, KeyGenDetail.class);
+            KeyGenDetail kgDetail = objectMapper1.readValue(requestDetail, KeyGenDetail.class);
 
             ObjectMapper objectMapper2 = new ObjectMapper();
             objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            KeyGenExtraInfo rawExtraInfo = objectMapper2.readValue(extra_info, KeyGenExtraInfo.class);
+            KeyGenExtraInfo rawExtraInfo = objectMapper2.readValue(extraInfo, KeyGenExtraInfo.class);
 
             // risk control logical
 
             // mock long time risk control, and save CallBackResponse to mem storage
-            CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
-            rspMemStorage.put(request_id, rsp);
+            CallBackResponse rsp = new CallBackResponse(StatusOK, requestID, CallBackResponse.ActionApprove, "");
+            rspMemStorage.put(requestID, rsp);
 
             return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
-            return create_error_token(StatusInternalError, e.toString());
+            return createErrorToken(StatusInternalError, e.toString());
         }
     }
 
-    private String process_keysign_request(String request_id, String request_detail, String extra_info) {
+    private String processKeysignRequest(String requestID, String requestDetail, String extraInfo) {
         try {
             ObjectMapper objectMapper1 = new ObjectMapper();
-            KeySignDetail ksDetail = objectMapper1.readValue(request_detail, KeySignDetail.class);
+            KeySignDetail ksDetail = objectMapper1.readValue(requestDetail, KeySignDetail.class);
 
             ObjectMapper objectMapper2 = new ObjectMapper();
             objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            KeySignExtraInfo rawExtraInfo = objectMapper2.readValue(extra_info, KeySignExtraInfo.class);
+            KeySignExtraInfo rawExtraInfo = objectMapper2.readValue(extraInfo, KeySignExtraInfo.class);
 
             // risk control logical
-            if (RcvWhiteListMap.get(rawExtraInfo.to_address) == null ) {
-                return createResponseToken(new CallBackResponse(StatusOK, request_id,
+            if (RcvWhiteListMap.get(rawExtraInfo.toAddress) == null ) {
+                return createResponseToken(new CallBackResponse(StatusOK, requestID,
                         CallBackResponse.ActionReject, "The target receiver address is not in whitelist"));
             }
 
             // mock long time risk control, and save CallBackResponse to mem storage
-            CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
-            rspMemStorage.put(request_id, rsp);
+            CallBackResponse rsp = new CallBackResponse(StatusOK, requestID, CallBackResponse.ActionApprove, "");
+            rspMemStorage.put(requestID, rsp);
 
             return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
-            return create_error_token(StatusInternalError, e.toString());
+            return createErrorToken(StatusInternalError, e.toString());
         }
     }
 
-    private String process_keyreshare_request(String request_id, String request_detail, String extra_info) {
+    private String processKeyreshareRequest(String requestID, String requestDetail, String extraInfo) {
         try {
             ObjectMapper objectMapper1 = new ObjectMapper();
-            KeyReshareDetail krDetail = objectMapper1.readValue(request_detail, KeyReshareDetail.class);
+            KeyReshareDetail krDetail = objectMapper1.readValue(requestDetail, KeyReshareDetail.class);
 
             ObjectMapper objectMapper2 = new ObjectMapper();
             objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            KeyReshareExtraInfo rawExtraInfo = objectMapper2.readValue(extra_info, KeyReshareExtraInfo.class);
+            KeyReshareExtraInfo rawExtraInfo = objectMapper2.readValue(extraInfo, KeyReshareExtraInfo.class);
 
             // risk control logical
 
             // mock long time risk control, and save CallBackResponse to mem storage
-            CallBackResponse rsp = new CallBackResponse(StatusOK, request_id, CallBackResponse.ActionApprove, "");
-            rspMemStorage.put(request_id, rsp);
+            CallBackResponse rsp = new CallBackResponse(StatusOK, requestID, CallBackResponse.ActionApprove, "");
+            rspMemStorage.put(requestID, rsp);
 
             return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
-            return create_error_token(StatusInternalError, e.toString());
+            return createErrorToken(StatusInternalError, e.toString());
         }
     }
 
-    private String create_error_token(int status, String errInfo) {
+    private String createErrorToken(int status, String errInfo) {
         return createResponseToken(new CallBackResponse(status, "", "", errInfo));
     }
 
@@ -261,37 +261,37 @@ public class CallbackServer {
 
     @POST(value = "/v1/check", responseType = ResponseType.TEXT)
     public String riskControl(@Form String TSS_JWT_MSG) {
-        String package_data;
+        String packageData;
         try {
-            package_data = parseJWT(TSS_JWT_MSG);
+            packageData = parseJWT(TSS_JWT_MSG);
         } catch (Exception e) {
-            return create_error_token(StatusInvalidToken, e.toString());
+            return createErrorToken(StatusInvalidToken, e.toString());
         }
 
         try{
-            byte[] payload = Base64.getDecoder().decode(package_data.getBytes());
+            byte[] payload = Base64.getDecoder().decode(packageData.getBytes());
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             CallBackRequest req = objectMapper.readValue(payload, CallBackRequest.class);
 
             // first check if the request has already been deal with
-            CallBackResponse rst = rspMemStorage.get(req.request_id);
+            CallBackResponse rst = rspMemStorage.get(req.requestID);
             if ( rst != null){
                 return createResponseToken(rst);
             }
 
-            switch (req.request_type) {
+            switch (req.requestType) {
                 case TypeKeyGen:
-                    return process_keygen_request(req.request_id, req.request_detail, req.extra_info);
+                    return processKeygenRequest(req.requestID, req.requestDetail, req.extraInfo);
                 case TypeKeySign:
-                    return process_keysign_request(req.request_id, req.request_detail, req.extra_info);
+                    return processKeysignRequest(req.requestID, req.requestDetail, req.extraInfo);
                 case TypeKeyReshare:
-                    return process_keyreshare_request(req.request_id, req.request_detail, req.extra_info);
+                    return processKeyreshareRequest(req.requestID, req.requestDetail, req.extraInfo);
                 default:
-                    return create_error_token(StatusInvalidRequest, "Unsupported request type");
+                    return createErrorToken(StatusInvalidRequest, "Unsupported request type");
             }
         } catch (Exception e) {
-            return create_error_token(StatusInternalError, e.toString());
+            return createErrorToken(StatusInternalError, e.toString());
         }
     }
 
