@@ -116,6 +116,9 @@ class KeyGenDetail implements Serializable{
 
     public int curve;
 
+    @JsonProperty("task_id")
+    public String taskID;
+
     public int getThreshold() {
         return threshold;
     }
@@ -138,6 +141,14 @@ class KeyGenDetail implements Serializable{
 
     public void setCurve(int curve) {
         this.curve = curve;
+    }
+
+    public String getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(String taskID) {
+        this.taskID = taskID;
     }
 }
 
@@ -170,6 +181,12 @@ class KeySignDetail implements Serializable{
 
     @JsonProperty("msg_hash_list")
     public String[] msgHashList;
+
+    @JsonProperty("tweak_list")
+    public String[] tweakList;
+
+    @JsonProperty("task_id")
+    public String taskID;
 
     public String getGroupID() {
         return groupID;
@@ -209,6 +226,22 @@ class KeySignDetail implements Serializable{
 
     public void setMsgHashList(String[] msgHashList) {
         this.msgHashList = msgHashList;
+    }
+
+    public String[] getTweakList() {
+        return tweakList;
+    }
+
+    public void setTweakList(String[] tweakList) {
+        this.tweakList = tweakList;
+    }
+
+    public String getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(String taskID) {
+        this.taskID = taskID;
     }
 }
 
@@ -551,6 +584,9 @@ class KeyReshareDetail implements Serializable{
     @JsonProperty("new_node_ids")
     public String[] newNodeIDs;
 
+    @JsonProperty("task_id")
+    public String taskID;
+    
     public String getOldGroupID() {
         return oldGroupID;
     }
@@ -605,6 +641,14 @@ class KeyReshareDetail implements Serializable{
 
     public void setNewNodeIDs(String[] newNodeIDs) {
         this.newNodeIDs = newNodeIDs;
+    }
+
+    public String getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(String taskID) {
+        this.taskID = taskID;
     }
 }
 

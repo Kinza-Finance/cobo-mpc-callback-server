@@ -63,9 +63,12 @@ fn generate_response_token(res: CallBackResponse) -> String {
     return encode(header, &my_claims, &key).unwrap();
 }
 
-fn process_ping_request() -> String {
+fn process_ping_request(request_id: String) -> String {
     return generate_response_token(CallBackResponse{
-        status: StatusOK
+        status: StatusOK,
+        request_id: request_id,
+        action: "".to_string(),
+        error: "".to_string()
     })
 }
 
@@ -164,7 +167,7 @@ async fn risk_control(form: web::Form<ReqInfo>) -> impl Responder {
     let req: CallBackRequest = serde_json::from_slice(&raw_data).unwrap();
     match req.request_type {
         TypePing => {
-            let rst = process_ping_request();
+            let rst = process_ping_request(req.request_id);
             return HttpResponse::Ok().body(rst)
         },
         TypeKeyGen => {

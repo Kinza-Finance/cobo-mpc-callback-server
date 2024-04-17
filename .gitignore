@@ -11,3 +11,4 @@ recovery/
 *.db
 *.dat
 *.csv
+.vscode/

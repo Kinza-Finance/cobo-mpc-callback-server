@@ -79,9 +79,10 @@ let errorHandler = (err, req, res, next) => {
 }
 app.use(errorHandler)
 
-let process_ping_request = (res) => {
+let process_ping_request = (request_id, res) => {
     send_response(res, {
         status: StatusOK,
+        request_id: request_id,
     })
 }
 
@@ -95,7 +96,6 @@ let process_keygen_request = (request_id, request_detail, extra_info, res) => {
         status: StatusOK,
         request_id: request_id,
         action: 'APPROVE'
-
     })
 }
 
@@ -148,7 +148,7 @@ app.post('/v1/check', function (req, res) {
 
     switch (callBackRequest['request_type']) {
         case TypePing:
-            process_ping_request(res);
+            process_ping_request(callBackRequest['request_id'], res);
             break;
         case TypeKeyGen:
             process_keygen_request(callBackRequest['request_id'], callBackRequest['request_detail'], callBackRequest['extra_info'], res)

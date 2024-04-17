@@ -37,12 +37,12 @@ cargo build
 ```
 
 ### Configure Server  
-Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.cobo.com/cobo-mpc-waas/v/simplified-chinese/readme/tss-node-shi-yong-zhi-nan)].
 
 ### Start Service
 Once the callback server has been successfully configured, clients can proceed to start the callback service.
 ```markdown
 cargo run 
 ```
-Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.cobo.com/cobo-mpc-waas/v/simplified-chinese/readme/tss-node-shi-yong-zhi-nan)].
 

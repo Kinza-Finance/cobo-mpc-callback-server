@@ -45,6 +45,7 @@ type KeyGenDetail struct {
 	Threshold int      `json:"threshold,omitempty"`
 	Curve     int      `json:"curve,omitempty"`
 	NodeIDs   []string `json:"node_ids,omitempty"`
+	TaskID    string   `json:"task_id,omitempty"`
 }
 
 type KeySignDetail struct {
@@ -53,6 +54,8 @@ type KeySignDetail struct {
 	UsedNodeIDs   []string `json:"used_node_ids,omitempty"`
 	Bip32PathList []string `json:"bip32_path_list,omitempty"`
 	MsgHashList   []string `json:"msg_hash_list,omitempty"`
+	TweakList     []string `json:"tweak_list,omitempty"`
+	TaskID        string   `json:"task_id,omitempty"`
 }
 
 type KeyReshareDetail struct {
@@ -63,6 +66,7 @@ type KeyReshareDetail struct {
 	OldThreshold int      `json:"old_threshold,omitempty"`
 	NewThreshold int      `json:"new_threshold,omitempty"`
 	NewNodeIDs   []string `json:"new_node_ids,omitempty"`
+	TaskID       string   `json:"task_id,omitempty"`
 }
 
 type KeyGenExtraInfo struct {

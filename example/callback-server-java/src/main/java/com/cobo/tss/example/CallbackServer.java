@@ -137,9 +137,9 @@ public class CallbackServer {
         return builder.compact();
     }
 
-    private String processPingRequest() {
+    private String processPingRequest(String requestID) {
         try {
-            CallBackResponse rsp = new CallBackResponse(StatusOK, "", "", "");
+            CallBackResponse rsp = new CallBackResponse(StatusOK, requestID, "", "");
             return createResponseToken(rsp);
         } catch(Exception e) {
             e.printStackTrace();
@@ -293,7 +293,7 @@ public class CallbackServer {
 
             switch (req.requestType) {
                 case TypePing:
-                    return processPingRequest();
+                    return processPingRequest(req.requestID);
                 case TypeKeyGen:
                     return processKeygenRequest(req.requestID, req.requestDetail, req.extraInfo);
                 case TypeKeySign:

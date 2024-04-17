@@ -60,7 +60,7 @@ mvn compile
 代码编译之后，默认会在当前目录生成一个`target`文件夹，里面有编译好了的Class文件。
 
 ### 服务配置
-在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.zh8q167fpjo3)。
+在样例执行之前，我们还需要对TSS Node和CallBack服务进行配置，具体可以参考Cobo[官方文档](https://docs.cobo.com/cobo-mpc-waas/v/simplified-chinese/readme/tss-node-shi-yong-zhi-nan)。
 
 <B>说明</B>
 
@@ -70,7 +70,7 @@ mvn compile
 ```markdown
 mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath com.cobo.tss.example.CallbackServer"
 ```
-之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.google.com/document/d/1ifQMVqCSyc129OGq7AKo7t5QBBkkAeu9svLfX4lKPhI/edit#heading=h.3shma34oqi61)。
+之后，我们就可以继续启动TSS Node了，可以参考官方文档的[相关章节](https://docs.cobo.com/cobo-mpc-waas/v/simplified-chinese/readme/tss-node-shi-yong-zhi-nan/bu-shu-tss-node/qi-dong-tss-node)。
 
 ### 白名单操作
 在我们提供的Java语言版本的样例中，我们也实现了一个简单的白名单风控功能，对KeySign的目标接收地址进行风控，以下是其简单的使用说明。

@@ -98,8 +98,9 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 	req, err := rcs.GetRawRequest(c)
 	if err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInvalidRequest,
-			ErrStr: err.Error(),
+			Status:    StatusInvalidRequest,
+			ErrStr:    err.Error(),
+			RequestID: req.RequestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()
@@ -109,7 +110,7 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 
 	switch req.RequestType {
 	case TypePing:
-		rcs.processPingRequest(c)
+		rcs.processPingRequest(c, req.RequestID)
 	case TypeKeyGen:
 		rcs.processKeyGenRequest(c, req.RequestDetail, req.ExtraInfo, req.RequestID)
 	case TypeKeySign:
@@ -119,9 +120,10 @@ func (rcs *CallBackService) RiskControl(c *gin.Context) {
 	}
 }
 
-func (rcs *CallBackService) processPingRequest(c *gin.Context) {
+func (rcs *CallBackService) processPingRequest(c *gin.Context, requestID string) {
 	rsp := CallBackResponse{
-		Status: StatusOK,
+		Status:    StatusOK,
+		RequestID: requestID,
 	}
 	rcs.SendResponse(c, rsp)
 }
@@ -130,8 +132,9 @@ func (rcs *CallBackService) processKeyGenRequest(c *gin.Context, rawRequest, ext
 	kgDetail := KeyGenDetail{}
 	if err := json.Unmarshal([]byte(rawRequest), &kgDetail); err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to KeyGenDetail",
+			Status:    StatusInternalError,
+			ErrStr:    "fail to converse []byte to KeyGenDetail",
+			RequestID: requestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()
@@ -142,8 +145,9 @@ func (rcs *CallBackService) processKeyGenRequest(c *gin.Context, rawRequest, ext
 	rawExtraInfo := KeyGenExtraInfo{}
 	if err := json.Unmarshal([]byte(extraInfo), &rawExtraInfo); err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to KeyGenMeta",
+			Status:    StatusInternalError,
+			ErrStr:    "fail to converse []byte to KeyGenMeta",
+			RequestID: requestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()
@@ -166,8 +170,9 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, rawRequest, ex
 	ksDetail := KeySignDetail{}
 	if err := json.Unmarshal([]byte(rawRequest), &ksDetail); err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to KeyGenDetail",
+			Status:    StatusInternalError,
+			ErrStr:    "fail to converse []byte to KeyGenDetail",
+			RequestID: requestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()
@@ -178,8 +183,9 @@ func (rcs *CallBackService) processKeySignRequest(c *gin.Context, rawRequest, ex
 	rawExtraInfo := KeySignExtraInfo{}
 	if err := json.Unmarshal([]byte(extraInfo), &rawExtraInfo); err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to KeySignMeta",
+			Status:    StatusInternalError,
+			ErrStr:    "fail to converse []byte to KeySignMeta",
+			RequestID: requestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()
@@ -229,8 +235,9 @@ func (rcs *CallBackService) processKeyReShareRequest(c *gin.Context, rawRequest,
 	krDetail := KeyReshareDetail{}
 	if err := json.Unmarshal([]byte(rawRequest), &krDetail); err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to KeyGenDetail",
+			Status:    StatusInternalError,
+			ErrStr:    "fail to converse []byte to KeyGenDetail",
+			RequestID: requestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()
@@ -241,8 +248,9 @@ func (rcs *CallBackService) processKeyReShareRequest(c *gin.Context, rawRequest,
 	rawExtraInfo := KeyReshareExtraInfo{}
 	if err := json.Unmarshal([]byte(extraInfo), &rawExtraInfo); err != nil {
 		rsp := CallBackResponse{
-			Status: StatusInternalError,
-			ErrStr: "fail to converse []byte to KeyReshareMeta",
+			Status:    StatusInternalError,
+			ErrStr:    "fail to converse []byte to KeyReshareMeta",
+			RequestID: requestID,
 		}
 		rcs.SendResponse(c, rsp)
 		c.Abort()

@@ -76,7 +76,7 @@ mvn compile
 After the codes are successfully compiled, a `target` folder will be generated in the current directory by default. The folder contains all complied Java class files.
 
 ### Configure server  
-Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
+Before execution, clients need to configure the TSS Node and callback server. For more information, please refer to [[TSS Node User Guide](https://docs.cobo.com/cobo-mpc-waas/v/simplified-chinese/readme/tss-node-shi-yong-zhi-nan)].
 
 <B>Note</B>
 
@@ -86,7 +86,7 @@ Once the callback server has been successfully configured, clients can proceed t
 ```markdown
 mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath com.cobo.tss.example.CallbackServer"
 ```
-Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.google.com/document/d/1J3tuFnv-jWm20-JoCQ1uYRhLYeU-IbqOyyCPHunbYr4/edit)].
+Clients can start up the TSS Node once all aforementioned steps are completed. For more information, please refer to [[TSS Node User Guide](https://docs.cobo.com/cobo-mpc-waas/v/simplified-chinese/readme/tss-node-shi-yong-zhi-nan)].
 
 ### Configure whitelist  
 We've provided Java code samples to help clients configure a whitelist for risk control purposes. Only addresses added to the whitelist will be called upon during key signing (i.e. KeySign). Please refer to the steps below for more information.
