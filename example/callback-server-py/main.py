@@ -168,7 +168,7 @@ app.add_route('/v1/check', cbService, suffix='check')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    with make_server('', 11020, app) as httpd:
+    with make_server('0.0.0.0', 11020, app) as httpd:
         print('Serving on port 11020...')
 
         # Serve until process is killed
